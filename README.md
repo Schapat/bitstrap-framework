@@ -3,12 +3,12 @@
 **Das 8-Bit-CSS-Framework.** Grid, Komponenten, Formulare, Icons und JavaScript
 im Pixel-Art-Stil — ohne Abhängigkeiten, ohne Build-Zwang, ~17 KB gzip.
 
-### → [Website & Dokumentation ansehen](https://schapat.github.io/bitstrap-site/)
+### → [Website & Dokumentation ansehen](https://schapat.github.io/bitstrap/)
 
 Dort findest du fertige Blöcke zum Kopieren (Anmeldung, Dashboard, Preise,
 Einstellungen, Bestellvorgang, Profil), alle Komponenten zum Ausprobieren und
 sechs Themes zum Durchschalten. Der Quelltext der Seite liegt in
-[Schapat/bitstrap-site](https://github.com/Schapat/bitstrap-site).
+[Schapat/bitstrap](https://github.com/Schapat/bitstrap).
 
 ```html
 <link rel="stylesheet" href="bitstrap.min.css">
@@ -192,7 +192,7 @@ Danach `node build/build.mjs` — fertig ist `.bit-icon--krone`.
 ```bash
 node build/build.mjs    # einmal bauen
 node build/watch.mjs    # bei Änderungen neu bauen
-npm start               # bauen und die Doku-Website servieren
+npm run verify          # Klassennamen und Verweise pruefen
 ```
 
 Der Build hat **keine Abhängigkeiten** — nur Node ≥ 18. Er generiert die
@@ -203,10 +203,12 @@ aneinander und minifiziert.
 src/          Quelldateien, nummeriert in Ladereihenfolge
 build/        Build-Script, Icon-Generator, Watcher
 dist/         Gebautes CSS und JS
-site/         Doku-Website (statisch, ohne Build)
 ```
 
-> `src/11-icons.generated.css` wird vom Build erzeugt — nicht von Hand ändern.
+> `src/_icons.generated.css` wird vom Build erzeugt — nicht von Hand ändern.
+>
+> Die Website liegt in einem eigenen Repository:
+> [Schapat/bitstrap](https://github.com/Schapat/bitstrap).
 
 ## Browser
 

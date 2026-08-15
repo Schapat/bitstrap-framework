@@ -15,13 +15,13 @@
   ],
   "license": "MIT",
   "author": "Patrick Scharnow",
-  "homepage": "https://schapat.github.io/bitstrap-site/",
+  "homepage": "https://schapat.github.io/bitstrap/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Schapat/bitstrap.git"
+    "url": "git+https://github.com/Schapat/bitstrap-framework.git"
   },
   "bugs": {
-    "url": "https://github.com/Schapat/bitstrap/issues"
+    "url": "https://github.com/Schapat/bitstrap-framework/issues"
   },
   "type": "module",
   "main": "dist/bitstrap.js",
