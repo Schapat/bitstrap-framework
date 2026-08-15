@@ -1,0 +1,344 @@
+/* ==========================================================================
+   BITSTRAP · 13 · Spiel-UI
+   Inventar, HUD, Tastenhinweise, Seltenheitsstufen, Bannermeldungen,
+   Zaehlwerke, Ladebildschirm
+   ========================================================================== */
+
+/* ==========================================================================
+   INVENTAR-RASTER
+   Gleich grosse Faecher, die sich selbst umbrechen.
+   ========================================================================== */
+.bit-inventory {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--bit-inv-cols, auto-fill),
+    minmax(var(--bit-slot-size, 56px), 1fr)
+  );
+  gap: var(--bit-px-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bit-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  padding: var(--bit-px-2);
+  background-color: var(--bit-surface-alt);
+  color: var(--bit-text);
+  cursor: pointer;
+  box-shadow:
+    inset 0 var(--bit-px) 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 calc(-1 * var(--bit-px)) 0 0 rgba(0, 0, 0, 0.25),
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-slot-c, var(--bit-border)),
+    0 var(--bit-px) 0 0 var(--bit-slot-c, var(--bit-border)),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-slot-c, var(--bit-border)),
+    var(--bit-px) 0 0 0 var(--bit-slot-c, var(--bit-border));
+}
+
+.bit-slot:hover,
+.bit-slot:focus-visible {
+  background-color: var(--bit-surface);
+}
+
+.bit-slot.is-selected {
+  --bit-slot-c: var(--bit-warning);
+}
+
+/* Leeres Fach: nur ein angedeuteter Punkt in der Mitte. */
+.bit-slot--empty {
+  cursor: default;
+}
+
+.bit-slot--empty::after {
+  content: "";
+  width: var(--bit-px-2);
+  height: var(--bit-px-2);
+  background-color: var(--bit-border);
+  opacity: 0.2;
+}
+
+/* Stueckzahl unten rechts. */
+.bit-slot__count {
+  position: absolute;
+  right: var(--bit-px);
+  bottom: 0;
+  font-size: var(--bit-fs-xs);
+  line-height: 1.4;
+  color: var(--bit-text);
+  text-shadow:
+    var(--bit-px) 0 0 var(--bit-surface-alt),
+    calc(-1 * var(--bit-px)) 0 0 var(--bit-surface-alt),
+    0 var(--bit-px) 0 var(--bit-surface-alt),
+    0 calc(-1 * var(--bit-px)) 0 var(--bit-surface-alt);
+}
+
+/* ---- Seltenheitsstufen ---------------------------------------------------
+   Faerben Rahmen und Text; auch auf Karten und Badges anwendbar. */
+.bit-rarity-common    { --bit-slot-c: var(--bit-c-steel);  --bit-fc: var(--bit-c-steel); }
+.bit-rarity-uncommon  { --bit-slot-c: var(--bit-c-green);  --bit-fc: var(--bit-c-green); }
+.bit-rarity-rare      { --bit-slot-c: var(--bit-c-blue);   --bit-fc: var(--bit-c-blue); }
+.bit-rarity-epic      { --bit-slot-c: var(--bit-c-purple); --bit-fc: var(--bit-c-purple); }
+.bit-rarity-legendary { --bit-slot-c: var(--bit-c-gold);   --bit-fc: var(--bit-c-gold); }
+
+/* Legendaere Gegenstaende schimmern. */
+.bit-rarity-legendary.bit-slot {
+  animation: bit-shimmer 1.4s steps(2, end) infinite;
+}
+
+@keyframes bit-shimmer {
+  0%, 100% { --bit-slot-c: var(--bit-c-gold); }
+  50%      { --bit-slot-c: var(--bit-c-amber); }
+}
+
+/* ==========================================================================
+   HUD
+   Statusleiste am Bildschirmrand: Leben, Vorrat, Punkte.
+   ========================================================================== */
+.bit-hud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bit-px-4);
+  padding: var(--bit-px-3) var(--bit-px-4);
+  background-color: var(--bit-c-void);
+  color: var(--bit-c-paper);
+  font-size: var(--bit-fs-sm);
+}
+
+.bit-hud__group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bit-px-2);
+}
+
+.bit-hud__label {
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-c-ash);
+}
+
+.bit-hud__value {
+  font-variant-numeric: tabular-nums;
+}
+
+.bit-hud--top {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+/* ==========================================================================
+   ZAEHLWERK
+   Punktestand mit fester Ziffernbreite - sonst wackelt die Zahl beim
+   Hochzaehlen und die ganze Leiste springt mit.
+   ========================================================================== */
+.bit-counter {
+  display: inline-flex;
+  gap: var(--bit-px);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+}
+
+.bit-counter__digit {
+  display: inline-block;
+  min-width: 1ch;
+  text-align: center;
+}
+
+/* ==========================================================================
+   TASTENHINWEIS
+   Zeigt an, welche Taste eine Aktion ausloest.
+   ========================================================================== */
+.bit-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--bit-px-6);
+  padding: 0 var(--bit-px-2);
+  background-color: var(--bit-surface);
+  color: var(--bit-text);
+  font-family: var(--bit-font);
+  font-size: var(--bit-fs-xs);
+  line-height: var(--bit-px-6);
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-border),
+    0 var(--bit-px) 0 0 var(--bit-border),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-border),
+    var(--bit-px) 0 0 0 var(--bit-border),
+    0 var(--bit-px-2) 0 0 var(--bit-border);
+  /* Der zusaetzliche Schatten unten laesst die Taste erhaben wirken. */
+  margin-bottom: var(--bit-px);
+}
+
+.bit-key--round {
+  aspect-ratio: 1;
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+}
+
+.bit-key--wide {
+  min-width: calc(var(--bit-px) * 16);
+}
+
+/* Aktionszeile am unteren Bildschirmrand: Taste plus Beschriftung. */
+.bit-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bit-px-4);
+  font-size: var(--bit-fs-xs);
+}
+
+.bit-prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bit-px-2);
+}
+
+/* ==========================================================================
+   BANNER
+   Grosse Einblendung fuer Stufenaufstieg, Sieg oder Niederlage.
+   ========================================================================== */
+.bit-banner {
+  --bit-banner-c: var(--bit-warning);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--bit-px-2);
+  padding: var(--bit-px-6) var(--bit-px-4);
+  background-color: var(--bit-c-void);
+  color: var(--bit-c-paper);
+  text-align: center;
+  border-block: var(--bit-px) solid var(--bit-banner-c);
+}
+
+.bit-banner__title {
+  margin: 0;
+  font-size: var(--bit-h3);
+  color: var(--bit-banner-c);
+  text-shadow: var(--bit-px) var(--bit-px) 0 rgba(0, 0, 0, 0.6);
+}
+
+.bit-banner__sub {
+  margin: 0;
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-c-ash);
+}
+
+.bit-banner--success { --bit-banner-c: var(--bit-c-green); }
+.bit-banner--danger  { --bit-banner-c: var(--bit-c-red); }
+
+/* Einblenden von oben, in Stufen. */
+.bit-banner--enter {
+  animation: bit-banner-in 260ms steps(6, end);
+}
+
+@keyframes bit-banner-in {
+  from { transform: translateY(calc(-1 * var(--bit-px-8))); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* ==========================================================================
+   LADEBILDSCHIRM
+   ========================================================================== */
+.bit-splash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bit-px-5);
+  min-height: var(--bit-splash-h, 320px);
+  padding: var(--bit-px-8) var(--bit-px-4);
+  background-color: var(--bit-c-void);
+  color: var(--bit-c-paper);
+  text-align: center;
+}
+
+.bit-splash__title {
+  margin: 0;
+  font-size: var(--bit-h2);
+  color: var(--bit-c-cloud);
+  text-shadow:
+    var(--bit-px) var(--bit-px) 0 var(--bit-c-red),
+    var(--bit-px-2) var(--bit-px-2) 0 var(--bit-c-void);
+}
+
+.bit-splash__hint {
+  margin: 0;
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-c-ash);
+}
+
+/* ==========================================================================
+   PORTRAIT
+   Figurenbild mit Rahmen, Namensschild und optionaler Energieleiste.
+   ========================================================================== */
+.bit-portrait {
+  display: flex;
+  align-items: center;
+  gap: var(--bit-px-3);
+  padding: var(--bit-px-2);
+  background-color: var(--bit-surface);
+}
+
+.bit-portrait__frame {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--bit-px) * 14);
+  height: calc(var(--bit-px) * 14);
+  background-color: var(--bit-surface-alt);
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-fc, var(--bit-border)),
+    0 var(--bit-px) 0 0 var(--bit-fc, var(--bit-border)),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-fc, var(--bit-border)),
+    var(--bit-px) 0 0 0 var(--bit-fc, var(--bit-border));
+}
+
+.bit-portrait__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bit-portrait__body {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.bit-portrait__name {
+  display: block;
+  font-size: var(--bit-fs-sm);
+  margin-bottom: var(--bit-px);
+}
+
+.bit-portrait__meta {
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-muted);
+}
+
+/* ==========================================================================
+   DAMAGE / FLOATING TEXT
+   Kurz aufsteigende Zahl, z.B. bei Treffern oder Punktgewinn.
+   ========================================================================== */
+.bit-floating-text {
+  position: absolute;
+  pointer-events: none;
+  font-size: var(--bit-fs-lg);
+  color: var(--bit-danger);
+  text-shadow:
+    var(--bit-px) 0 0 var(--bit-c-void),
+    calc(-1 * var(--bit-px)) 0 0 var(--bit-c-void),
+    0 var(--bit-px) 0 var(--bit-c-void),
+    0 calc(-1 * var(--bit-px)) 0 var(--bit-c-void);
+  animation: bit-rise 800ms steps(8, end) forwards;
+}
+
+@keyframes bit-rise {
+  from { transform: translateY(0); opacity: 1; }
+  to   { transform: translateY(calc(-1 * var(--bit-px) * 10)); opacity: 0; }
+}

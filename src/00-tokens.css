@@ -1,0 +1,162 @@
+/* ==========================================================================
+   BITSTRAP · 00 · Design Tokens
+   Alles im Framework leitet sich von diesen Custom Properties ab.
+   Ueberschreibe sie auf :root, um das gesamte Look & Feel zu aendern.
+   ========================================================================== */
+
+:root {
+  /* ---- Pixel-Einheit -----------------------------------------------------
+     Der komplette Look skaliert ueber diese eine Variable. 4px = Standard,
+     3px = kompakt, 6px = "Arcade-Automat". */
+  --bit-px: 4px;
+  --bit-px-2: calc(var(--bit-px) * 2);
+  --bit-px-3: calc(var(--bit-px) * 3);
+  --bit-px-4: calc(var(--bit-px) * 4);
+  --bit-px-5: calc(var(--bit-px) * 5);
+  --bit-px-6: calc(var(--bit-px) * 6);
+  --bit-px-8: calc(var(--bit-px) * 8);
+
+  /* ---- Rohe Palette ------------------------------------------------------ */
+  --bit-c-void:    #12111c;
+  --bit-c-ink:     #1f1d36;
+  --bit-c-slate:   #45435a;
+  --bit-c-steel:   #7d7a8c;
+  --bit-c-ash:     #b9b7ae;
+  --bit-c-bone:    #e4e2dd;
+  --bit-c-paper:   #f4f1e8;
+  --bit-c-cloud:   #ffffff;
+
+  --bit-c-blood:   #8b2f3c;
+  --bit-c-red:     #e43b44;
+  --bit-c-orange:  #f77622;
+  --bit-c-amber:   #feae34;
+  --bit-c-gold:    #ffd93d;
+  --bit-c-lime:    #a7f070;
+  --bit-c-green:   #63c74d;
+  --bit-c-forest:  #3e8948;
+  --bit-c-teal:    #2ce8f5;
+  --bit-c-blue:    #0099db;
+  --bit-c-navy:    #124e89;
+  --bit-c-purple:  #8a5bd6;
+  --bit-c-plum:    #5a3a8e;
+  --bit-c-pink:    #ff6b97;
+
+  /* ---- Semantische Farben (Light-Theme) ---------------------------------- */
+  --bit-bg:          var(--bit-c-paper);
+  --bit-surface:     var(--bit-c-cloud);
+  --bit-surface-alt: var(--bit-c-bone);
+  --bit-text:        var(--bit-c-ink);
+  --bit-muted:       var(--bit-c-steel);
+  --bit-border:      var(--bit-c-ink);
+  --bit-shadow-c:    rgba(31, 29, 54, 0.28);
+  --bit-focus:       var(--bit-c-blue);
+  --bit-overlay:     rgba(18, 17, 28, 0.72);
+
+  --bit-primary:     var(--bit-c-red);
+  --bit-primary-fg:  var(--bit-c-cloud);
+  --bit-secondary:    var(--bit-c-navy);
+  --bit-secondary-fg: var(--bit-c-cloud);
+  --bit-success:     var(--bit-c-forest);
+  --bit-success-fg:  var(--bit-c-cloud);
+  --bit-warning:     var(--bit-c-amber);
+  --bit-warning-fg:  var(--bit-c-ink);
+  --bit-danger:      var(--bit-c-blood);
+  --bit-danger-fg:   var(--bit-c-cloud);
+  --bit-info:        var(--bit-c-blue);
+  --bit-info-fg:     var(--bit-c-cloud);
+  --bit-dark:        var(--bit-c-ink);
+  --bit-dark-fg:     var(--bit-c-paper);
+  --bit-light:       var(--bit-c-bone);
+  --bit-light-fg:    var(--bit-c-ink);
+
+  /* ---- Typografie --------------------------------------------------------
+     "Press Start 2P" ist der Klassiker, wird aber NICHT mitgeliefert.
+     Siehe README: entweder per Google Fonts einbinden oder self-hosten.
+     Ohne die Schrift faellt Bitstrap sauber auf Monospace zurueck. */
+  --bit-font: "Press Start 2P", "Silkscreen", "Pixelify Sans", ui-monospace,
+              "SFMono-Regular", "Cascadia Mono", "Consolas", monospace;
+  --bit-font-body: var(--bit-font);
+  --bit-font-mono: ui-monospace, "SFMono-Regular", "Consolas", monospace;
+
+  --bit-fs:    12px;
+  --bit-fs-xs: 9px;
+  --bit-fs-sm: 10px;
+  --bit-fs-lg: 15px;
+  --bit-fs-xl: 19px;
+  --bit-h1: 34px;
+  --bit-h2: 27px;
+  --bit-h3: 21px;
+  --bit-h4: 17px;
+  --bit-h5: 14px;
+  --bit-h6: 12px;
+
+  --bit-lh: 1.85;
+  --bit-lh-tight: 1.35;
+  --bit-ls: 0.02em;
+
+  /* ---- Layout ------------------------------------------------------------ */
+  --bit-container: 1180px;
+  --bit-gutter: var(--bit-px-6);
+  --bit-columns: 12;
+
+  /* ---- Motion ------------------------------------------------------------
+     Bewusst "steppy": 8-Bit-Hardware kannte kein Easing. */
+  --bit-step: steps(4, end);
+  --bit-dur: 120ms;
+}
+
+/* ---- Dark-Theme ---------------------------------------------------------- */
+[data-bit-theme="dark"] {
+  --bit-bg:          var(--bit-c-void);
+  --bit-surface:     var(--bit-c-ink);
+  --bit-surface-alt: var(--bit-c-slate);
+  --bit-text:        var(--bit-c-paper);
+  --bit-muted:       var(--bit-c-ash);
+  --bit-border:      var(--bit-c-paper);
+  --bit-shadow-c:    rgba(0, 0, 0, 0.6);
+  --bit-focus:       var(--bit-c-teal);
+  --bit-overlay:     rgba(0, 0, 0, 0.8);
+
+  --bit-primary:     var(--bit-c-red);
+  --bit-secondary:    var(--bit-c-blue);
+  --bit-secondary-fg: var(--bit-c-void);
+  --bit-success:     var(--bit-c-green);
+  --bit-success-fg:  var(--bit-c-void);
+  --bit-warning:     var(--bit-c-gold);
+  --bit-warning-fg:  var(--bit-c-void);
+  --bit-danger:      var(--bit-c-red);
+  --bit-info:        var(--bit-c-teal);
+  --bit-info-fg:     var(--bit-c-void);
+  --bit-dark:        var(--bit-c-void);
+  --bit-dark-fg:     var(--bit-c-paper);
+  --bit-light:       var(--bit-c-slate);
+  --bit-light-fg:    var(--bit-c-paper);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-bit-theme="light"]) {
+    --bit-bg:          var(--bit-c-void);
+    --bit-surface:     var(--bit-c-ink);
+    --bit-surface-alt: var(--bit-c-slate);
+    --bit-text:        var(--bit-c-paper);
+    --bit-muted:       var(--bit-c-ash);
+    --bit-border:      var(--bit-c-paper);
+    --bit-shadow-c:    rgba(0, 0, 0, 0.6);
+    --bit-focus:       var(--bit-c-teal);
+    --bit-overlay:     rgba(0, 0, 0, 0.8);
+
+    --bit-secondary:    var(--bit-c-blue);
+    --bit-secondary-fg: var(--bit-c-void);
+    --bit-success:     var(--bit-c-green);
+    --bit-success-fg:  var(--bit-c-void);
+    --bit-warning:     var(--bit-c-gold);
+    --bit-warning-fg:  var(--bit-c-void);
+    --bit-danger:      var(--bit-c-red);
+    --bit-info:        var(--bit-c-teal);
+    --bit-info-fg:     var(--bit-c-void);
+    --bit-dark:        var(--bit-c-void);
+    --bit-dark-fg:     var(--bit-c-paper);
+    --bit-light:       var(--bit-c-slate);
+    --bit-light-fg:    var(--bit-c-paper);
+  }
+}

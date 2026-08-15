@@ -1,0 +1,128 @@
+/* ==========================================================================
+   BITSTRAP · 10 · Utilities (handgeschriebener Teil)
+   Abstaende, Farben und Gaps werden vom Build-Script generiert und
+   hinter dieser Datei angehaengt.
+   ========================================================================== */
+
+/* ---- Display ------------------------------------------------------------- */
+.bit-block        { display: block !important; }
+.bit-inline       { display: inline !important; }
+.bit-inline-block { display: inline-block !important; }
+.bit-flex         { display: flex !important; }
+.bit-inline-flex  { display: inline-flex !important; }
+.bit-grid         { display: grid !important; }
+.bit-hidden       { display: none !important; }
+
+/* ---- Flex ---------------------------------------------------------------- */
+.bit-flex-row     { flex-direction: row !important; }
+.bit-flex-col     { flex-direction: column !important; }
+.bit-flex-wrap    { flex-wrap: wrap !important; }
+.bit-flex-nowrap  { flex-wrap: nowrap !important; }
+.bit-flex-1       { flex: 1 1 0% !important; }
+.bit-flex-auto    { flex: 1 1 auto !important; }
+.bit-flex-none    { flex: none !important; }
+
+.bit-items-start   { align-items: flex-start !important; }
+.bit-items-center  { align-items: center !important; }
+.bit-items-end     { align-items: flex-end !important; }
+.bit-items-stretch { align-items: stretch !important; }
+
+.bit-justify-start   { justify-content: flex-start !important; }
+.bit-justify-center  { justify-content: center !important; }
+.bit-justify-end     { justify-content: flex-end !important; }
+.bit-justify-between { justify-content: space-between !important; }
+.bit-justify-around  { justify-content: space-around !important; }
+
+.bit-self-start  { align-self: flex-start !important; }
+.bit-self-center { align-self: center !important; }
+.bit-self-end    { align-self: flex-end !important; }
+
+/* ---- Text ---------------------------------------------------------------- */
+.bit-text-left    { text-align: left !important; }
+.bit-text-center  { text-align: center !important; }
+.bit-text-right   { text-align: right !important; }
+
+.bit-text-xs { font-size: var(--bit-fs-xs) !important; }
+.bit-text-sm { font-size: var(--bit-fs-sm) !important; }
+.bit-text-md { font-size: var(--bit-fs) !important; }
+.bit-text-lg { font-size: var(--bit-fs-lg) !important; }
+.bit-text-xl { font-size: var(--bit-fs-xl) !important; }
+
+.bit-uppercase  { text-transform: uppercase !important; }
+.bit-lowercase  { text-transform: lowercase !important; }
+.bit-nowrap     { white-space: nowrap !important; }
+.bit-mono       { font-family: var(--bit-font-mono) !important; }
+
+/* Text auf eine Zeile kuerzen. */
+.bit-truncate {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* ---- Position ------------------------------------------------------------ */
+.bit-relative { position: relative !important; }
+.bit-absolute { position: absolute !important; }
+.bit-fixed    { position: fixed !important; }
+.bit-sticky   { position: sticky !important; }
+
+/* ---- Groesse ------------------------------------------------------------- */
+.bit-w-full  { width: 100% !important; }
+.bit-w-auto  { width: auto !important; }
+.bit-w-half  { width: 50% !important; }
+.bit-h-full  { height: 100% !important; }
+.bit-h-screen { height: 100vh !important; }
+.bit-mx-auto { margin-left: auto !important; margin-right: auto !important; }
+
+/* ---- Sonstiges ----------------------------------------------------------- */
+.bit-overflow-auto   { overflow: auto !important; }
+.bit-overflow-hidden { overflow: hidden !important; }
+.bit-pointer         { cursor: pointer !important; }
+
+/* Rahmen als eigenstaendige Utility. */
+.bit-border-none { --bit-fw: 0px !important; }
+.bit-border-thin { --bit-fw: calc(var(--bit-px) / 2) !important; }
+.bit-border-thick { --bit-fw: var(--bit-px-2) !important; }
+
+/* ---- Barrierefreiheit ----------------------------------------------------
+   Nur fuer Screenreader sichtbar. */
+.bit-sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Sprunglink, der erst beim Fokussieren erscheint. */
+.bit-skip-link {
+  position: absolute;
+  left: var(--bit-px-4);
+  top: calc(-1 * var(--bit-px) * 20);
+  z-index: 999;
+  padding: var(--bit-px-3);
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+  transition: top var(--bit-dur) var(--bit-step);
+}
+
+.bit-skip-link:focus {
+  top: var(--bit-px-4);
+}
+
+/* ---- Responsive Sichtbarkeit --------------------------------------------- */
+@media (max-width: 767.98px) {
+  .bit-hide-mobile { display: none !important; }
+}
+
+@media (min-width: 768px) {
+  .bit-hide-desktop { display: none !important; }
+}
+
+@media print {
+  .bit-no-print { display: none !important; }
+}

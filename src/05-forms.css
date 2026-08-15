@@ -1,0 +1,380 @@
+/* ==========================================================================
+   BITSTRAP · 05 · Formulare
+   Checkbox, Radio, Switch und Range werden komplett neu gezeichnet -
+   Systemwidgets haben runde Ecken und passen nicht ins Raster.
+   ========================================================================== */
+
+.bit-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bit-px-2);
+  margin-bottom: var(--bit-px-5);
+}
+
+.bit-label {
+  font-family: var(--bit-font);
+  font-size: var(--bit-fs-sm);
+  color: var(--bit-text);
+}
+
+.bit-label--required::after {
+  content: " *";
+  color: var(--bit-danger);
+}
+
+.bit-help {
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-muted);
+}
+
+.bit-error {
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-danger);
+}
+
+/* ---- Textfelder ---------------------------------------------------------- */
+.bit-input,
+.bit-select,
+.bit-textarea {
+  --bit-fsh: rgba(0, 0, 0, 0.12);
+  width: 100%;
+  padding: var(--bit-px-3);
+  background-color: var(--bit-surface);
+  color: var(--bit-text);
+  font-family: var(--bit-font-body);
+  font-size: var(--bit-fs);
+  line-height: 1.5;
+  letter-spacing: var(--bit-ls);
+}
+
+.bit-textarea {
+  min-height: calc(var(--bit-px) * 24);
+  resize: vertical;
+}
+
+.bit-input::placeholder,
+.bit-textarea::placeholder {
+  color: var(--bit-muted);
+}
+
+.bit-input:disabled,
+.bit-select:disabled,
+.bit-textarea:disabled {
+  background-color: var(--bit-surface-alt);
+  color: var(--bit-muted);
+  cursor: not-allowed;
+}
+
+/* Validierung */
+.bit-input.is-invalid,
+.bit-select.is-invalid,
+.bit-textarea.is-invalid { --bit-fc: var(--bit-danger); }
+
+.bit-input.is-valid,
+.bit-select.is-valid,
+.bit-textarea.is-valid { --bit-fc: var(--bit-success); }
+
+/* Select: eigener Pixel-Pfeil statt Systemdreieck. */
+.bit-select {
+  /* Alle drei Schreibweisen noetig: ohne das -webkit-Praefix zeichnet
+     Safari zusaetzlich seinen eigenen Pfeil neben den hier gemalten. */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: var(--bit-px-8);
+  /* Der Aufklapp-Pfeil: drei uebereinander gestapelte Balken, die nach
+     unten schmaler werden - eine echte Pixeltreppe. Der uebliche Trick
+     mit zwei diagonalen Verlaeufen erzeugt kantengeglaettete Schraegen
+     und passt damit nicht ins Raster. currentColor bleibt erhalten,
+     der Pfeil folgt also jedem Theme. */
+  background-image:
+    linear-gradient(to bottom,
+      currentColor 0, currentColor calc(var(--bit-px) / 2),
+      transparent calc(var(--bit-px) / 2)),
+    linear-gradient(to bottom,
+      transparent 0, transparent calc(var(--bit-px) / 2),
+      currentColor calc(var(--bit-px) / 2), currentColor var(--bit-px),
+      transparent var(--bit-px)),
+    linear-gradient(to bottom,
+      transparent 0, transparent var(--bit-px),
+      currentColor var(--bit-px));
+  /* Alle drei Ebenen sind gleich hoch; welche Zeile gefuellt ist,
+     entscheiden die Stopps oben. Damit bleibt background-position bei
+     der schlichten Dreiwert-Form - die Vierwert-Form mit
+     verschachteltem calc() wird nicht zuverlaessig verarbeitet. */
+  background-size:
+    calc(var(--bit-px) * 2.5) calc(var(--bit-px) * 1.5),
+    calc(var(--bit-px) * 1.5) calc(var(--bit-px) * 1.5),
+    calc(var(--bit-px) * 0.5) calc(var(--bit-px) * 1.5);
+  background-position:
+    right calc(var(--bit-px) * 3) center,
+    right calc(var(--bit-px) * 3.5) center,
+    right calc(var(--bit-px) * 4) center;
+  background-repeat: no-repeat;
+}
+
+/* ---- Input-Gruppe (Addons links/rechts) ---------------------------------- */
+.bit-input-group {
+  display: flex;
+  align-items: stretch;
+}
+
+.bit-input-group > .bit-input {
+  flex: 1 1 auto;
+  width: auto;
+  /* Ohne min-width:0 laesst sich ein <input> nicht unter seine
+     intrinsische Breite (~170px) stauchen - die Gruppe sprengt dann
+     enge Container, statt mitzugehen. */
+  min-width: 0;
+}
+
+.bit-input-group > * + * {
+  margin-left: var(--bit-px);
+}
+
+.bit-input-group__addon {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--bit-px-3);
+  background-color: var(--bit-surface-alt);
+  color: var(--bit-muted);
+  font-size: var(--bit-fs-sm);
+  white-space: nowrap;
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-border),
+    0 var(--bit-px) 0 0 var(--bit-border),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-border),
+    var(--bit-px) 0 0 0 var(--bit-border);
+}
+
+/* ==========================================================================
+   CHECKBOX & RADIO
+   Das native Element bleibt erhalten (Screenreader, Tastatur, Formulare),
+   wird aber visuell versteckt und durch ein Pixel-Kaestchen ersetzt.
+   ========================================================================== */
+.bit-check {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--bit-px-3);
+  cursor: pointer;
+  position: relative;
+  padding: var(--bit-px) 0;
+}
+
+.bit-check input[type="checkbox"],
+.bit-check input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+
+.bit-check__box {
+  flex: 0 0 auto;
+  position: relative;
+  width: var(--bit-px-5);
+  height: var(--bit-px-5);
+  margin-top: calc(var(--bit-px) / 2);
+  background-color: var(--bit-surface);
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-border),
+    0 var(--bit-px) 0 0 var(--bit-border),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-border),
+    var(--bit-px) 0 0 0 var(--bit-border);
+}
+
+/* Das Haekchen: zwei gedrehte Balken - ergibt bei harten Kanten
+   exakt den treppenfoermigen Pixel-Haken. */
+.bit-check__box::before,
+.bit-check__box::after {
+  content: "";
+  position: absolute;
+  background-color: var(--bit-check-c, var(--bit-primary));
+  opacity: 0;
+}
+
+.bit-check__box::before {
+  width: var(--bit-px);
+  height: var(--bit-px-2);
+  left: var(--bit-px);
+  bottom: var(--bit-px);
+}
+
+.bit-check__box::after {
+  width: var(--bit-px);
+  height: var(--bit-px-4);
+  right: var(--bit-px);
+  bottom: var(--bit-px-2);
+}
+
+.bit-check input:checked ~ .bit-check__box::before,
+.bit-check input:checked ~ .bit-check__box::after {
+  opacity: 1;
+}
+
+/* Radio: gefuelltes Quadrat in der Mitte, kein Kreis. */
+.bit-check--radio .bit-check__box::before {
+  width: var(--bit-px-3);
+  height: var(--bit-px-3);
+  left: var(--bit-px);
+  bottom: var(--bit-px);
+}
+
+.bit-check--radio .bit-check__box::after {
+  display: none;
+}
+
+.bit-check input:focus-visible ~ .bit-check__box {
+  outline: var(--bit-px) dashed var(--bit-focus);
+  outline-offset: var(--bit-px-2);
+}
+
+.bit-check input:disabled ~ .bit-check__box {
+  opacity: 0.45;
+}
+
+.bit-check input:disabled ~ .bit-check__label {
+  color: var(--bit-muted);
+}
+
+/* ==========================================================================
+   SWITCH
+   ========================================================================== */
+.bit-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bit-px-3);
+  cursor: pointer;
+  position: relative;
+}
+
+.bit-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.bit-switch__track {
+  position: relative;
+  width: var(--bit-px-8);
+  height: var(--bit-px-5);
+  background-color: var(--bit-surface-alt);
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-border),
+    0 var(--bit-px) 0 0 var(--bit-border),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-border),
+    var(--bit-px) 0 0 0 var(--bit-border);
+}
+
+.bit-switch__track::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--bit-px-4);
+  height: var(--bit-px-5);
+  background-color: var(--bit-border);
+  /* steps() statt linear: der Knopf springt, er gleitet nicht. */
+  transition: transform var(--bit-dur) steps(2, end);
+}
+
+.bit-switch input:checked ~ .bit-switch__track {
+  background-color: var(--bit-success);
+}
+
+.bit-switch input:checked ~ .bit-switch__track::before {
+  transform: translateX(var(--bit-px-4));
+}
+
+.bit-switch input:focus-visible ~ .bit-switch__track {
+  outline: var(--bit-px) dashed var(--bit-focus);
+  outline-offset: var(--bit-px-2);
+}
+
+/* ==========================================================================
+   RANGE
+   ========================================================================== */
+.bit-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.bit-range::-webkit-slider-runnable-track {
+  height: var(--bit-px-2);
+  background-color: var(--bit-surface-alt);
+  box-shadow: 0 0 0 var(--bit-px) var(--bit-border);
+}
+
+.bit-range::-moz-range-track {
+  height: var(--bit-px-2);
+  background-color: var(--bit-surface-alt);
+  box-shadow: 0 0 0 var(--bit-px) var(--bit-border);
+}
+
+.bit-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--bit-px-4);
+  height: var(--bit-px-5);
+  margin-top: calc(-1 * var(--bit-px) * 1.5);
+  background-color: var(--bit-primary);
+  box-shadow: 0 0 0 var(--bit-px) var(--bit-border);
+}
+
+.bit-range::-moz-range-thumb {
+  width: var(--bit-px-4);
+  height: var(--bit-px-5);
+  border: 0;
+  background-color: var(--bit-primary);
+  box-shadow: 0 0 0 var(--bit-px) var(--bit-border);
+}
+
+/* ==========================================================================
+   FILE-INPUT
+   ========================================================================== */
+.bit-file {
+  display: inline-block;
+  position: relative;
+}
+
+.bit-file input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  cursor: pointer;
+}
+
+.bit-file input[type="file"]:focus-visible ~ .bit-btn {
+  outline: var(--bit-px) dashed var(--bit-focus);
+  outline-offset: var(--bit-px);
+}
+
+/* ==========================================================================
+   FIELDSET im Menue-Look
+   ========================================================================== */
+.bit-fieldset {
+  border: 0;
+  margin: 0 0 var(--bit-px-6);
+  padding: var(--bit-px-6) var(--bit-px-5) var(--bit-px-4);
+  position: relative;
+  background-color: var(--bit-surface);
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-border),
+    0 var(--bit-px) 0 0 var(--bit-border),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-border),
+    var(--bit-px) 0 0 0 var(--bit-border);
+}
+
+.bit-fieldset > legend {
+  padding: 0 var(--bit-px-2);
+  margin-left: var(--bit-px-2);
+  background-color: var(--bit-surface);
+  font-size: var(--bit-fs-sm);
+  color: var(--bit-primary);
+}

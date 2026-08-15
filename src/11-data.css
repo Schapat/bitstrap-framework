@@ -1,0 +1,399 @@
+/* ==========================================================================
+   BITSTRAP · 11 · Daten & Inhalte
+   Kennzahlen, Meter, Zeitleisten, Baeume, Skeletons, Leerzustaende,
+   sortierbare Tabellen, Codebloecke
+   ========================================================================== */
+
+/* ==========================================================================
+   STAT-KACHEL
+   Eine Kennzahl mit Beschriftung und optionaler Veraenderung.
+   ========================================================================== */
+.bit-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bit-px);
+  padding: var(--bit-px-4);
+  background-color: var(--bit-surface);
+}
+
+.bit-stat__label {
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-muted);
+  text-transform: uppercase;
+}
+
+.bit-stat__value {
+  font-size: var(--bit-h3);
+  line-height: 1.2;
+  color: var(--bit-text);
+  /* Ziffern in fester Breite: sonst springt der Wert beim Hochzaehlen. */
+  font-variant-numeric: tabular-nums;
+}
+
+.bit-stat__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bit-px);
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-muted);
+}
+
+.bit-stat__delta--up   { color: var(--bit-success); }
+.bit-stat__delta--down { color: var(--bit-danger); }
+
+.bit-stat--accent {
+  border-left: var(--bit-px-2) solid var(--bit-primary);
+}
+
+/* ==========================================================================
+   METER
+   Beschrifteter Wertebalken - anders als .bit-progress mit Label und
+   Zahl in einer Zeile. Fuer Attribute, Auslastung, Kapazitaet.
+   ========================================================================== */
+.bit-meter {
+  --bit-meter-c: var(--bit-info);
+  display: block;
+  padding: var(--bit-px-3);
+  background-color: var(--bit-surface);
+}
+
+.bit-meter__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bit-px-2);
+  margin-bottom: var(--bit-px-2);
+  font-size: var(--bit-fs-xs);
+}
+
+.bit-meter__value {
+  color: var(--bit-meter-c);
+  font-variant-numeric: tabular-nums;
+}
+
+.bit-meter__track {
+  display: block;
+  height: var(--bit-px-3);
+  background-color: var(--bit-surface-alt);
+  box-shadow: inset 0 0 0 var(--bit-px) rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.bit-meter__fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background-color: var(--bit-meter-c);
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.25) 0,
+    rgba(255, 255, 255, 0.25) var(--bit-px),
+    transparent var(--bit-px),
+    transparent var(--bit-px-2)
+  );
+  transition: width var(--bit-dur) var(--bit-step);
+}
+
+.bit-meter--success { --bit-meter-c: var(--bit-success); }
+.bit-meter--warning { --bit-meter-c: var(--bit-warning); }
+.bit-meter--danger  { --bit-meter-c: var(--bit-danger); }
+
+/* ==========================================================================
+   ZEITLEISTE
+   ========================================================================== */
+.bit-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bit-timeline__item {
+  position: relative;
+  padding-left: var(--bit-px-8);
+  padding-bottom: var(--bit-px-6);
+}
+
+/* Die Verbindungslinie ist gestrichelt - eine durchgezogene Linie
+   waere im Pixelraster zu glatt. */
+.bit-timeline__item::before {
+  content: "";
+  position: absolute;
+  left: var(--bit-px-2);
+  top: var(--bit-px-4);
+  bottom: 0;
+  width: var(--bit-px);
+  background-image: repeating-linear-gradient(
+    180deg,
+    var(--bit-border) 0,
+    var(--bit-border) var(--bit-px-2),
+    transparent var(--bit-px-2),
+    transparent var(--bit-px-4)
+  );
+}
+
+.bit-timeline__item:last-child {
+  padding-bottom: 0;
+}
+
+.bit-timeline__item:last-child::before {
+  display: none;
+}
+
+.bit-timeline__marker {
+  position: absolute;
+  left: 0;
+  top: var(--bit-px);
+  width: var(--bit-px-3);
+  height: var(--bit-px-3);
+  background-color: var(--bit-marker-c, var(--bit-primary));
+  box-shadow: 0 0 0 var(--bit-px) var(--bit-bg);
+}
+
+.bit-timeline__item--success .bit-timeline__marker { --bit-marker-c: var(--bit-success); }
+.bit-timeline__item--danger  .bit-timeline__marker { --bit-marker-c: var(--bit-danger); }
+.bit-timeline__item--muted   .bit-timeline__marker { --bit-marker-c: var(--bit-muted); }
+
+.bit-timeline__time {
+  display: block;
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-muted);
+  margin-bottom: var(--bit-px);
+}
+
+.bit-timeline__title {
+  margin: 0 0 var(--bit-px);
+  font-size: var(--bit-fs-sm);
+}
+
+.bit-timeline__body {
+  font-size: var(--bit-fs-xs);
+}
+
+/* ==========================================================================
+   BAUMANSICHT
+   ========================================================================== */
+.bit-tree,
+.bit-tree__children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--bit-fs-sm);
+}
+
+.bit-tree__children {
+  margin-left: var(--bit-px-3);
+  padding-left: var(--bit-px-4);
+  border-left: var(--bit-px) dashed var(--bit-border);
+}
+
+.bit-tree__children[hidden] {
+  display: none;
+}
+
+.bit-tree__row {
+  display: flex;
+  align-items: center;
+  gap: var(--bit-px-2);
+  width: 100%;
+  padding: var(--bit-px) var(--bit-px-2);
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.bit-tree__row:hover {
+  background-color: var(--bit-surface-alt);
+}
+
+.bit-tree__row.is-selected {
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+}
+
+/* Der Aufklapp-Pfeil. Blaetter ohne Kinder bekommen stattdessen Leerraum,
+   damit die Beschriftungen buendig bleiben. */
+.bit-tree__caret {
+  flex: 0 0 auto;
+  width: var(--bit-px-3);
+  color: var(--bit-muted);
+}
+
+.bit-tree__caret::before {
+  content: "+";
+}
+
+.bit-tree__item.is-open > .bit-tree__row .bit-tree__caret::before {
+  content: "-";
+}
+
+.bit-tree__item--leaf > .bit-tree__row .bit-tree__caret::before {
+  content: "";
+}
+
+/* ==========================================================================
+   SKELETON
+   Ladeplatzhalter. Der Schimmer laeuft in Stufen statt als weicher
+   Verlauf - alles andere waere ein Stilbruch.
+   ========================================================================== */
+.bit-skeleton {
+  display: block;
+  background-color: var(--bit-surface-alt);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: bit-skeleton 1s steps(8, end) infinite;
+}
+
+@keyframes bit-skeleton {
+  from { background-position: -100% 0; }
+  to   { background-position: 200% 0; }
+}
+
+.bit-skeleton--text {
+  height: var(--bit-px-3);
+  margin-bottom: var(--bit-px-2);
+}
+
+.bit-skeleton--title {
+  height: var(--bit-px-5);
+  width: 60%;
+  margin-bottom: var(--bit-px-3);
+}
+
+.bit-skeleton--block {
+  height: calc(var(--bit-px) * 24);
+}
+
+.bit-skeleton--avatar {
+  width: calc(var(--bit-px) * 12);
+  height: calc(var(--bit-px) * 12);
+}
+
+/* Letzte Textzeile kuerzer - so wirkt der Platzhalter wie echter Text. */
+.bit-skeleton--text:last-child {
+  width: 75%;
+}
+
+/* ==========================================================================
+   LEERZUSTAND
+   ========================================================================== */
+.bit-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--bit-px-3);
+  padding: var(--bit-px-8) var(--bit-px-4);
+  text-align: center;
+  color: var(--bit-muted);
+}
+
+.bit-empty .bit-icon {
+  color: var(--bit-muted);
+  opacity: 0.6;
+}
+
+.bit-empty__title {
+  margin: 0;
+  font-size: var(--bit-fs);
+  color: var(--bit-text);
+}
+
+.bit-empty__text {
+  margin: 0;
+  font-size: var(--bit-fs-xs);
+  max-width: 46ch;
+}
+
+/* ==========================================================================
+   SORTIERBARE TABELLE
+   Die Pfeile sind reines CSS; das Umsortieren uebernimmt das JavaScript.
+   ========================================================================== */
+.bit-table--sortable th[data-bit-sort] {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.bit-table--sortable th[data-bit-sort]::after {
+  content: "";
+  display: inline-block;
+  width: var(--bit-px-2);
+  height: var(--bit-px-2);
+  margin-left: var(--bit-px-2);
+  background-color: currentColor;
+  opacity: 0.3;
+  /* Neutraler Zustand: kleines Quadrat. Sortiert: Dreieck nach oben/unten. */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.bit-table--sortable th.is-asc::after {
+  opacity: 1;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.bit-table--sortable th.is-desc::after {
+  opacity: 1;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+/* ==========================================================================
+   CODEBLOCK
+   ========================================================================== */
+.bit-code {
+  background-color: var(--bit-c-void);
+  color: var(--bit-c-paper);
+}
+
+.bit-code__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bit-px-3);
+  padding: var(--bit-px-2) var(--bit-px-3);
+  background-color: rgba(255, 255, 255, 0.08);
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-c-ash);
+}
+
+.bit-code pre {
+  margin: 0;
+  background: none;
+}
+
+/* ==========================================================================
+   BESCHREIBUNGSLISTE
+   ========================================================================== */
+.bit-dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--bit-px-2) var(--bit-px-4);
+  margin: 0;
+  font-size: var(--bit-fs-sm);
+}
+
+.bit-dl dt {
+  color: var(--bit-muted);
+  font-size: var(--bit-fs-xs);
+}
+
+.bit-dl dd {
+  margin: 0;
+}
+
+@media (max-width: 479.98px) {
+  .bit-dl {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .bit-dl dd {
+    margin-bottom: var(--bit-px-3);
+  }
+}

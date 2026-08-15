@@ -1,0 +1,467 @@
+/* ==========================================================================
+   BITSTRAP · 07 · Navigation & Overlays
+   Navbar, Tabs, Accordion, Dropdown, Modal, Toast, Tooltip
+   ========================================================================== */
+
+/* ==========================================================================
+   NAVBAR
+   ========================================================================== */
+.bit-navbar {
+  background-color: var(--bit-surface);
+  color: var(--bit-text);
+  border-bottom: var(--bit-px) solid var(--bit-border);
+}
+
+.bit-navbar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--bit-px-4);
+  min-height: calc(var(--bit-px) * 14);
+  padding-block: var(--bit-px-2);
+}
+
+.bit-navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bit-px-2);
+  font-size: var(--bit-fs-lg);
+  color: inherit;
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.bit-navbar__toggle {
+  display: inline-flex;
+  margin-left: auto;
+}
+
+.bit-navbar__menu {
+  display: flex;
+  align-items: center;
+  gap: var(--bit-px-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bit-navbar__link {
+  display: block;
+  padding: var(--bit-px-2) var(--bit-px-3);
+  color: inherit;
+  text-decoration: none;
+  font-size: var(--bit-fs-sm);
+}
+
+.bit-navbar__link:hover,
+.bit-navbar__link.is-active {
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+}
+
+.bit-navbar--dark {
+  background-color: var(--bit-dark);
+  color: var(--bit-dark-fg);
+  border-bottom-color: var(--bit-dark);
+}
+
+.bit-navbar--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+/* Mobil klappt das Menue unter die Leiste. Erst ab md liegt es daneben. */
+@media (max-width: 767.98px) {
+  .bit-navbar__inner {
+    flex-wrap: wrap;
+  }
+
+  .bit-navbar__menu {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    padding-bottom: var(--bit-px-2);
+  }
+
+  .bit-navbar.is-open .bit-navbar__menu {
+    display: flex;
+  }
+}
+
+@media (min-width: 768px) {
+  .bit-navbar__toggle {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   TABS
+   ========================================================================== */
+/* Der Container ist zugleich der Suchanker fuer das JavaScript:
+   von einem Reiter aus wird der naechste .bit-tabs gesucht, um Liste und
+   Panels derselben Gruppe zuzuordnen. Deshalb ist er auch dann noetig,
+   wenn er optisch nichts tut. */
+.bit-tabs {
+  display: block;
+}
+
+.bit-tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bit-px-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.bit-tabs__tab {
+  padding: var(--bit-px-2) var(--bit-px-4);
+  background-color: var(--bit-surface-alt);
+  color: var(--bit-muted);
+  font-family: var(--bit-font);
+  font-size: var(--bit-fs-sm);
+  border: 0;
+  cursor: pointer;
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-border),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-border),
+    var(--bit-px) 0 0 0 var(--bit-border);
+}
+
+.bit-tabs__tab.is-active {
+  background-color: var(--bit-surface);
+  color: var(--bit-text);
+  /* Der aktive Reiter wird eine Pixelzeile hoeher und verschmilzt
+     mit dem Panel darunter. */
+  transform: translateY(calc(-1 * var(--bit-px)));
+  padding-bottom: var(--bit-px-3);
+}
+
+.bit-tabs__panel {
+  padding: var(--bit-px-5);
+  background-color: var(--bit-surface);
+  margin-top: var(--bit-px);
+}
+
+.bit-tabs__panel[hidden] {
+  display: none;
+}
+
+/* ==========================================================================
+   ACCORDION
+   ========================================================================== */
+.bit-accordion {
+  background-color: var(--bit-surface);
+}
+
+.bit-accordion__item + .bit-accordion__item {
+  border-top: var(--bit-px) solid var(--bit-border);
+}
+
+.bit-accordion__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bit-px-3);
+  width: 100%;
+  padding: var(--bit-px-3) var(--bit-px-4);
+  background: none;
+  border: 0;
+  color: inherit;
+  font-family: var(--bit-font);
+  font-size: var(--bit-fs-sm);
+  text-align: left;
+  cursor: pointer;
+}
+
+.bit-accordion__trigger:hover {
+  background-color: var(--bit-surface-alt);
+}
+
+/* Plus wird zu Minus: der senkrechte Balken verschwindet. */
+.bit-accordion__trigger::after {
+  content: "+";
+  flex: 0 0 auto;
+  color: var(--bit-primary);
+}
+
+.bit-accordion__item.is-open .bit-accordion__trigger::after {
+  content: "-";
+}
+
+.bit-accordion__panel {
+  padding: 0 var(--bit-px-4) var(--bit-px-4);
+}
+
+.bit-accordion__panel[hidden] {
+  display: none;
+}
+
+/* ==========================================================================
+   DROPDOWN
+   ========================================================================== */
+.bit-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.bit-dropdown__menu {
+  position: absolute;
+  top: calc(100% + var(--bit-px-2));
+  left: 0;
+  z-index: 30;
+  display: none;
+  min-width: calc(var(--bit-px) * 40);
+  padding: var(--bit-px-2) 0;
+  margin: 0;
+  list-style: none;
+  background-color: var(--bit-surface);
+  --bit-fdx: var(--bit-px-2);
+  --bit-fdy: var(--bit-px-2);
+  --bit-fdc: var(--bit-shadow-c);
+}
+
+.bit-dropdown.is-open .bit-dropdown__menu {
+  display: block;
+}
+
+.bit-dropdown__menu--right {
+  left: auto;
+  right: 0;
+}
+
+.bit-dropdown__item {
+  display: block;
+  width: 100%;
+  padding: var(--bit-px-2) var(--bit-px-4);
+  background: none;
+  border: 0;
+  color: var(--bit-text);
+  font-family: var(--bit-font);
+  font-size: var(--bit-fs-sm);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bit-dropdown__item:hover,
+.bit-dropdown__item:focus {
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+}
+
+.bit-dropdown__divider {
+  height: var(--bit-px);
+  margin: var(--bit-px-2) 0;
+  background-color: var(--bit-border);
+}
+
+/* ==========================================================================
+   MODAL
+   ========================================================================== */
+.bit-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--bit-px-4);
+}
+
+.bit-modal.is-open {
+  display: flex;
+}
+
+.bit-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--bit-overlay);
+  /* Grober Dither-Raster ueber dem Overlay - der Hintergrund wird
+     nicht weichgezeichnet, sondern verpixelt abgedunkelt. */
+  background-image:
+    repeating-conic-gradient(rgba(0, 0, 0, 0.25) 0% 25%, transparent 0% 50%);
+  background-size: var(--bit-px-2) var(--bit-px-2);
+}
+
+.bit-modal__box {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--bit-modal-w, 560px);
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: var(--bit-surface);
+  --bit-fdx: var(--bit-px-2);
+  --bit-fdy: var(--bit-px-2);
+  --bit-fdc: rgba(0, 0, 0, 0.5);
+  animation: bit-pop var(--bit-dur) steps(3, end);
+}
+
+@keyframes bit-pop {
+  from { transform: scale(0.8); }
+  to   { transform: scale(1); }
+}
+
+.bit-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bit-px-3);
+  padding: var(--bit-px-3) var(--bit-px-4);
+  border-bottom: var(--bit-px) solid var(--bit-border);
+}
+
+.bit-modal__title {
+  margin: 0;
+  font-size: var(--bit-fs);
+}
+
+.bit-modal__body {
+  padding: var(--bit-px-5);
+}
+
+.bit-modal__body > :last-child { margin-bottom: 0; }
+
+.bit-modal__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--bit-px-2);
+  padding: var(--bit-px-3) var(--bit-px-4);
+  border-top: var(--bit-px) solid var(--bit-border);
+  background-color: var(--bit-surface-alt);
+}
+
+.bit-modal--sm { --bit-modal-w: 380px; }
+.bit-modal--lg { --bit-modal-w: 800px; }
+
+/* Verhindert Scrollen der Seite hinter dem offenen Modal. */
+.bit-scroll-lock {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   TOAST
+   ========================================================================== */
+.bit-toast-container {
+  position: fixed;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bit-px-3);
+  padding: var(--bit-px-4);
+  pointer-events: none;
+}
+
+.bit-toast-container[data-position="top-right"]    { top: 0; right: 0; }
+.bit-toast-container[data-position="top-left"]     { top: 0; left: 0; }
+.bit-toast-container[data-position="bottom-right"] { bottom: 0; right: 0; }
+.bit-toast-container[data-position="bottom-left"]  { bottom: 0; left: 0; }
+.bit-toast-container[data-position="top-center"]   { top: 0; left: 50%; transform: translateX(-50%); }
+
+.bit-toast {
+  --bit-toast-c: var(--bit-info);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--bit-px-3);
+  min-width: calc(var(--bit-px) * 60);
+  max-width: 100%;
+  padding: var(--bit-px-3) var(--bit-px-4);
+  background-color: var(--bit-surface);
+  color: var(--bit-text);
+  border-left: var(--bit-px-2) solid var(--bit-toast-c);
+  pointer-events: auto;
+  --bit-fdx: var(--bit-px-2);
+  --bit-fdy: var(--bit-px-2);
+  --bit-fdc: var(--bit-shadow-c);
+  animation: bit-toast-in 160ms steps(4, end);
+}
+
+.bit-toast.is-leaving {
+  animation: bit-toast-out 160ms steps(4, end) forwards;
+}
+
+@keyframes bit-toast-in {
+  from { transform: translateX(var(--bit-px-8)); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes bit-toast-out {
+  from { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(var(--bit-px-8)); opacity: 0; }
+}
+
+.bit-toast__body { flex: 1 1 auto; }
+
+.bit-toast__title {
+  margin: 0 0 var(--bit-px);
+  font-size: var(--bit-fs-sm);
+  color: var(--bit-toast-c);
+}
+
+.bit-toast__message {
+  margin: 0;
+  font-size: var(--bit-fs-xs);
+}
+
+.bit-toast--success { --bit-toast-c: var(--bit-success); }
+.bit-toast--warning { --bit-toast-c: var(--bit-warning); }
+.bit-toast--danger  { --bit-toast-c: var(--bit-danger); }
+
+/* ==========================================================================
+   TOOLTIP
+   Reines CSS, erscheint bei Hover und Tastaturfokus.
+   ========================================================================== */
+.bit-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.bit-tooltip__bubble {
+  position: absolute;
+  bottom: calc(100% + var(--bit-px-3));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: none;
+  width: max-content;
+  max-width: calc(var(--bit-px) * 60);
+  padding: var(--bit-px-2) var(--bit-px-3);
+  background-color: var(--bit-dark);
+  color: var(--bit-dark-fg);
+  --bit-fc: var(--bit-dark);
+  font-size: var(--bit-fs-xs);
+  line-height: 1.5;
+}
+
+.bit-tooltip:hover .bit-tooltip__bubble,
+.bit-tooltip:focus-within .bit-tooltip__bubble {
+  display: block;
+}
+
+.bit-tooltip__bubble::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: var(--bit-px-2) solid transparent;
+  border-right: var(--bit-px-2) solid transparent;
+  border-top: var(--bit-px-2) solid var(--bit-dark);
+}
+
+.bit-tooltip--bottom .bit-tooltip__bubble {
+  bottom: auto;
+  top: calc(100% + var(--bit-px-3));
+}
+
+.bit-tooltip--bottom .bit-tooltip__bubble::after {
+  top: auto;
+  bottom: 100%;
+  border-top: 0;
+  border-bottom: var(--bit-px-2) solid var(--bit-dark);
+}

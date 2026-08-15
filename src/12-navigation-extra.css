@@ -1,0 +1,430 @@
+/* ==========================================================================
+   BITSTRAP · 12 · Navigation & Layout-Shells
+   Drawer, Popover, Stepper, Carousel, Segmented Control, Toolbar,
+   Split-Button, App-Shell
+   ========================================================================== */
+
+/* ==========================================================================
+   DRAWER (Off-Canvas)
+   Faehrt von einer Bildschirmkante ein. Anders als das Modal bleibt der
+   Inhalt dahinter sichtbar und teilweise bedienbar.
+   ========================================================================== */
+.bit-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: none;
+}
+
+.bit-drawer.is-open {
+  display: block;
+}
+
+.bit-drawer__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--bit-overlay);
+  background-image: repeating-conic-gradient(
+    rgba(0, 0, 0, 0.25) 0% 25%,
+    transparent 0% 50%
+  );
+  background-size: var(--bit-px-2) var(--bit-px-2);
+}
+
+.bit-drawer__panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: min(var(--bit-drawer-w, 320px), 86vw);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bit-surface);
+  border-right: var(--bit-px) solid var(--bit-border);
+  /* steps(): das Panel rastet ein, statt weich zu gleiten. */
+  animation: bit-drawer-left 180ms steps(5, end);
+}
+
+.bit-drawer--right .bit-drawer__panel {
+  left: auto;
+  right: 0;
+  border-right: 0;
+  border-left: var(--bit-px) solid var(--bit-border);
+  animation-name: bit-drawer-right;
+}
+
+.bit-drawer--bottom .bit-drawer__panel {
+  top: auto;
+  left: 0;
+  right: 0;
+  width: auto;
+  height: min(var(--bit-drawer-h, 60vh), 90vh);
+  border-right: 0;
+  border-top: var(--bit-px) solid var(--bit-border);
+  animation-name: bit-drawer-bottom;
+}
+
+@keyframes bit-drawer-left {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes bit-drawer-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes bit-drawer-bottom {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.bit-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bit-px-3);
+  padding: var(--bit-px-3) var(--bit-px-4);
+  border-bottom: var(--bit-px) solid var(--bit-border);
+}
+
+.bit-drawer__title {
+  margin: 0;
+  font-size: var(--bit-fs);
+}
+
+.bit-drawer__body {
+  flex: 1 1 auto;
+  padding: var(--bit-px-4);
+  overflow-y: auto;
+}
+
+.bit-drawer__footer {
+  padding: var(--bit-px-3) var(--bit-px-4);
+  border-top: var(--bit-px) solid var(--bit-border);
+  background-color: var(--bit-surface-alt);
+}
+
+/* ==========================================================================
+   POPOVER
+   Wie ein Tooltip, aber per Klick und mit beliebigem Inhalt. Die Position
+   setzt das JavaScript, damit der Kasten nicht aus dem Bild laeuft -
+   der reine CSS-Tooltip kann das nicht.
+   ========================================================================== */
+.bit-popover {
+  position: absolute;
+  z-index: 70;
+  display: none;
+  width: max-content;
+  max-width: min(320px, 90vw);
+  padding: var(--bit-px-3);
+  background-color: var(--bit-surface);
+  color: var(--bit-text);
+  font-size: var(--bit-fs-xs);
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-border),
+    0 var(--bit-px) 0 0 var(--bit-border),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-border),
+    var(--bit-px) 0 0 0 var(--bit-border),
+    var(--bit-px-2) var(--bit-px-2) 0 0 var(--bit-shadow-c);
+}
+
+.bit-popover.is-open {
+  display: block;
+}
+
+.bit-popover__title {
+  margin: 0 0 var(--bit-px-2);
+  font-size: var(--bit-fs-sm);
+  color: var(--bit-primary);
+}
+
+.bit-popover > :last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   STEPPER (mehrstufige Formulare)
+   ========================================================================== */
+/* Klammert Schrittleiste, Panels und Knoepfe. Das JavaScript sucht von
+   einem Knopf aus diesen Vorfahren, um die zusammengehoerige Gruppe zu
+   finden - deshalb noetig, auch wenn er optisch nichts tut. */
+.bit-stepper-host {
+  display: block;
+}
+
+.bit-stepper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bit-px-2);
+  list-style: none;
+  margin: 0 0 var(--bit-px-6);
+  padding: 0;
+  counter-reset: bit-step;
+}
+
+.bit-stepper__step {
+  flex: 1 1 0;
+  min-width: calc(var(--bit-px) * 24);
+  display: flex;
+  align-items: center;
+  gap: var(--bit-px-2);
+  padding: var(--bit-px-2);
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-muted);
+  counter-increment: bit-step;
+  /* Der Fortschritt liegt als Balken unter der Beschriftung. */
+  border-bottom: var(--bit-px-2) solid var(--bit-surface-alt);
+}
+
+.bit-stepper__step::before {
+  content: counter(bit-step);
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--bit-px-5);
+  height: var(--bit-px-5);
+  background-color: var(--bit-surface-alt);
+  color: var(--bit-muted);
+  font-size: var(--bit-fs-xs);
+}
+
+.bit-stepper__step.is-active {
+  color: var(--bit-text);
+  border-bottom-color: var(--bit-primary);
+}
+
+.bit-stepper__step.is-active::before {
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+}
+
+.bit-stepper__step.is-done {
+  color: var(--bit-text);
+  border-bottom-color: var(--bit-success);
+}
+
+/* Erledigte Schritte zeigen ein Haekchen statt der Nummer. */
+.bit-stepper__step.is-done::before {
+  content: "\2713";
+  background-color: var(--bit-success);
+  color: var(--bit-success-fg);
+}
+
+.bit-step-panel[hidden] {
+  display: none;
+}
+
+/* ==========================================================================
+   CAROUSEL
+   Scroll-Snap statt JavaScript-Transform: funktioniert auch ohne JS,
+   laesst sich wischen und bleibt mit der Tastatur bedienbar.
+   ========================================================================== */
+.bit-carousel {
+  position: relative;
+}
+
+.bit-carousel__track {
+  display: flex;
+  gap: var(--bit-gutter);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  /* Scrollbar ausblenden, das Steuerkreuz uebernimmt. */
+  scrollbar-width: none;
+}
+
+.bit-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.bit-carousel__slide {
+  flex: 0 0 var(--bit-slide-w, 100%);
+  scroll-snap-align: start;
+}
+
+.bit-carousel__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bit-px-2);
+  margin-top: var(--bit-px-3);
+}
+
+.bit-carousel__dots {
+  display: flex;
+  gap: var(--bit-px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bit-carousel__dot {
+  width: var(--bit-px-2);
+  height: var(--bit-px-2);
+  padding: 0;
+  border: 0;
+  background-color: var(--bit-surface-alt);
+  box-shadow: 0 0 0 var(--bit-px) var(--bit-border);
+  cursor: pointer;
+}
+
+.bit-carousel__dot.is-active {
+  background-color: var(--bit-primary);
+}
+
+/* ==========================================================================
+   SEGMENTED CONTROL
+   Radiogruppe im Schalter-Look. Nutzt echte Radio-Inputs.
+   ========================================================================== */
+.bit-segmented {
+  display: inline-flex;
+  background-color: var(--bit-surface-alt);
+  padding: var(--bit-px);
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-border),
+    0 var(--bit-px) 0 0 var(--bit-border),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-border),
+    var(--bit-px) 0 0 0 var(--bit-border);
+}
+
+.bit-segmented input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.bit-segmented label {
+  padding: var(--bit-px-2) var(--bit-px-4);
+  font-size: var(--bit-fs-sm);
+  color: var(--bit-muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.bit-segmented input:checked + label {
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+}
+
+.bit-segmented input:focus-visible + label {
+  outline: var(--bit-px) dashed var(--bit-focus);
+  outline-offset: calc(-1 * var(--bit-px));
+}
+
+/* ==========================================================================
+   TOOLBAR
+   ========================================================================== */
+.bit-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bit-px-2);
+  padding: var(--bit-px-2);
+  background-color: var(--bit-surface);
+  border-bottom: var(--bit-px) solid var(--bit-border);
+}
+
+.bit-toolbar__sep {
+  width: var(--bit-px);
+  align-self: stretch;
+  margin-inline: var(--bit-px);
+  background-color: var(--bit-border);
+  opacity: 0.4;
+}
+
+.bit-toolbar__spacer {
+  flex: 1 1 auto;
+}
+
+/* ==========================================================================
+   SPLIT-BUTTON
+   Hauptaktion plus angehaengtes Klappmenue.
+   ========================================================================== */
+.bit-split-btn {
+  display: inline-flex;
+}
+
+.bit-split-btn > .bit-btn + .bit-dropdown > .bit-btn {
+  margin-left: calc(-1 * var(--bit-px));
+  padding-inline: var(--bit-px-2);
+}
+
+/* ==========================================================================
+   APP-SHELL
+   Kopfzeile, feste Seitenleiste, scrollender Inhalt. Auf kleinen
+   Schirmen faellt die Leiste weg - dort gehoert sie in einen Drawer.
+   ========================================================================== */
+.bit-shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100vh;
+}
+
+@media (min-width: 1024px) {
+  .bit-shell {
+    grid-template-columns: var(--bit-sidebar-w, 240px) minmax(0, 1fr);
+  }
+}
+
+.bit-shell__sidebar {
+  display: none;
+  background-color: var(--bit-surface);
+  border-right: var(--bit-px) solid var(--bit-border);
+  padding: var(--bit-px-4);
+}
+
+@media (min-width: 1024px) {
+  .bit-shell__sidebar {
+    display: block;
+    position: sticky;
+    top: 0;
+    align-self: start;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+}
+
+.bit-shell__main {
+  min-width: 0;
+  padding: var(--bit-px-6);
+}
+
+/* Seitenleiste mit Abschnitten. */
+.bit-sidenav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--bit-fs-sm);
+}
+
+.bit-sidenav__heading {
+  margin: var(--bit-px-5) 0 var(--bit-px-2);
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-muted);
+  text-transform: uppercase;
+}
+
+.bit-sidenav__heading:first-child {
+  margin-top: 0;
+}
+
+.bit-sidenav__link {
+  display: flex;
+  align-items: center;
+  gap: var(--bit-px-2);
+  padding: var(--bit-px-2) var(--bit-px-3);
+  color: var(--bit-text);
+  text-decoration: none;
+}
+
+.bit-sidenav__link:hover {
+  background-color: var(--bit-surface-alt);
+}
+
+.bit-sidenav__link.is-active {
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+}

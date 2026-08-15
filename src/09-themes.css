@@ -1,0 +1,132 @@
+/* ==========================================================================
+   BITSTRAP · 09 · Themes
+   Jedes Theme setzt nur semantische Tokens neu - kein einziger
+   Komponenten-Selektor wird angefasst. Auf <html> oder einen beliebigen
+   Container legen, Themes lassen sich also auch verschachteln.
+   ========================================================================== */
+
+/* ---- ARCADE: satte Automaten-Farben auf Schwarz ------------------------- */
+.bit-theme-arcade {
+  --bit-bg:          #14002b;
+  --bit-surface:     #240046;
+  --bit-surface-alt: #3c096c;
+  --bit-text:        #ffe8ff;
+  --bit-muted:       #b98fd9;
+  --bit-border:      #ffe8ff;
+  --bit-shadow-c:    rgba(0, 0, 0, 0.6);
+  --bit-focus:       #ffd93d;
+  --bit-overlay:     rgba(20, 0, 43, 0.85);
+
+  --bit-primary:     #ff4d9d;
+  --bit-primary-fg:  #14002b;
+  --bit-secondary:    #9d4edd;
+  --bit-secondary-fg: #ffe8ff;
+  --bit-success:     #6fff6f;
+  --bit-success-fg:  #14002b;
+  --bit-warning:     #ffd93d;
+  --bit-warning-fg:  #14002b;
+  --bit-danger:      #ff2e63;
+  --bit-danger-fg:   #ffe8ff;
+  --bit-info:        #4cc9f0;
+  --bit-info-fg:     #14002b;
+  --bit-dark:        #14002b;
+  --bit-dark-fg:     #ffe8ff;
+  --bit-light:       #3c096c;
+  --bit-light-fg:    #ffe8ff;
+}
+
+/* ---- HANDHELD: monochromes Gruen eines LCD-Taschengeraets --------------- */
+.bit-theme-handheld {
+  --bit-bg:          #9bbc0f;
+  --bit-surface:     #8bac0f;
+  --bit-surface-alt: #7b9c0f;
+  --bit-text:        #0f380f;
+  --bit-muted:       #306230;
+  --bit-border:      #0f380f;
+  --bit-shadow-c:    rgba(15, 56, 15, 0.35);
+  --bit-focus:       #0f380f;
+  --bit-overlay:     rgba(15, 56, 15, 0.75);
+
+  --bit-primary:     #0f380f;
+  --bit-primary-fg:  #9bbc0f;
+  --bit-secondary:    #306230;
+  --bit-secondary-fg: #9bbc0f;
+  --bit-success:     #306230;
+  --bit-success-fg:  #9bbc0f;
+  --bit-warning:     #7b9c0f;
+  --bit-warning-fg:  #0f380f;
+  --bit-danger:      #0f380f;
+  --bit-danger-fg:   #9bbc0f;
+  --bit-info:        #306230;
+  --bit-info-fg:     #9bbc0f;
+  --bit-dark:        #0f380f;
+  --bit-dark-fg:     #9bbc0f;
+  --bit-light:       #8bac0f;
+  --bit-light-fg:    #0f380f;
+}
+
+/* ---- TERMINAL: Phosphorgruen auf Schwarz ------------------------------- */
+.bit-theme-terminal {
+  --bit-bg:          #001100;
+  --bit-surface:     #002200;
+  --bit-surface-alt: #003300;
+  --bit-text:        #33ff33;
+  --bit-muted:       #1f9f1f;
+  --bit-border:      #33ff33;
+  --bit-shadow-c:    rgba(51, 255, 51, 0.25);
+  --bit-focus:       #99ff99;
+  --bit-overlay:     rgba(0, 17, 0, 0.88);
+
+  --bit-primary:     #33ff33;
+  --bit-primary-fg:  #001100;
+  --bit-secondary:    #1f9f1f;
+  --bit-secondary-fg: #001100;
+  --bit-success:     #33ff33;
+  --bit-success-fg:  #001100;
+  --bit-warning:     #ffb000;
+  --bit-warning-fg:  #001100;
+  --bit-danger:      #ff3333;
+  --bit-danger-fg:   #001100;
+  --bit-info:        #33ffcc;
+  --bit-info-fg:     #001100;
+  --bit-dark:        #001100;
+  --bit-dark-fg:     #33ff33;
+  --bit-light:       #003300;
+  --bit-light-fg:    #33ff33;
+}
+
+/* ---- CANDY: helles Pastell, freundlich statt hart ----------------------- */
+.bit-theme-candy {
+  --bit-bg:          #fff0f6;
+  --bit-surface:     #ffffff;
+  --bit-surface-alt: #ffe0ef;
+  --bit-text:        #3d2b56;
+  --bit-muted:       #9b7fb5;
+  --bit-border:      #3d2b56;
+  --bit-shadow-c:    rgba(61, 43, 86, 0.22);
+  --bit-focus:       #ff85b3;
+  --bit-overlay:     rgba(61, 43, 86, 0.7);
+
+  --bit-primary:     #ff85b3;
+  --bit-primary-fg:  #3d2b56;
+  --bit-secondary:    #8ecae6;
+  --bit-secondary-fg: #3d2b56;
+  --bit-success:     #95e1a3;
+  --bit-success-fg:  #3d2b56;
+  --bit-warning:     #ffd670;
+  --bit-warning-fg:  #3d2b56;
+  --bit-danger:      #ff6b6b;
+  --bit-danger-fg:   #ffffff;
+  --bit-info:        #8ecae6;
+  --bit-info-fg:     #3d2b56;
+  --bit-dark:        #3d2b56;
+  --bit-dark-fg:     #fff0f6;
+  --bit-light:       #ffe0ef;
+  --bit-light-fg:    #3d2b56;
+}
+
+/* ---- Dichte-Varianten ---------------------------------------------------
+   Skalieren das gesamte Framework ueber die Pixel-Einheit. */
+.bit-density-compact { --bit-px: 3px; --bit-fs: 10px; }
+.bit-density-large   { --bit-px: 5px; --bit-fs: 14px; }
+.bit-density-arcade  { --bit-px: 6px; --bit-fs: 16px; }

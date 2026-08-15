@@ -1,0 +1,446 @@
+/* ==========================================================================
+   BITSTRAP · 14 · Formular-Komponenten
+   Datepicker, Combobox, Tag-Eingabe, Zahlenfeld, Bewertung, Dropzone,
+   Code-Eingabe, Passwortstaerke, Suchfeld
+   ========================================================================== */
+
+/* ==========================================================================
+   DATEPICKER
+   Das Feld bleibt ein normales <input>: Tippen, Einfuegen und
+   Formularabsendung funktionieren unveraendert. Der Kalender ist eine
+   zusaetzliche Bedienhilfe, keine Voraussetzung.
+   ========================================================================== */
+.bit-datepicker {
+  position: relative;
+  display: block;
+}
+
+.bit-datepicker__toggle {
+  position: absolute;
+  right: var(--bit-px-2);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.bit-datepicker .bit-input {
+  padding-right: var(--bit-px-8);
+}
+
+.bit-calendar {
+  position: absolute;
+  z-index: 70;
+  top: calc(100% + var(--bit-px-2));
+  left: 0;
+  display: none;
+  padding: var(--bit-px-3);
+  background-color: var(--bit-surface);
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-border),
+    0 var(--bit-px) 0 0 var(--bit-border),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-border),
+    var(--bit-px) 0 0 0 var(--bit-border),
+    var(--bit-px-2) var(--bit-px-2) 0 0 var(--bit-shadow-c);
+}
+
+.bit-calendar.is-open {
+  display: block;
+}
+
+.bit-calendar__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bit-px-2);
+  margin-bottom: var(--bit-px-3);
+}
+
+.bit-calendar__title {
+  font-size: var(--bit-fs-sm);
+  white-space: nowrap;
+}
+
+.bit-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--bit-px);
+}
+
+.bit-calendar__dow {
+  padding: var(--bit-px);
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-muted);
+  text-align: center;
+}
+
+.bit-calendar__day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--bit-px-8);
+  aspect-ratio: 1;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--bit-text);
+  font-family: var(--bit-font);
+  font-size: var(--bit-fs-xs);
+  cursor: pointer;
+}
+
+.bit-calendar__day:hover:not(:disabled) {
+  background-color: var(--bit-surface-alt);
+}
+
+/* Der heutige Tag wird markiert, ohne als ausgewaehlt zu gelten. */
+.bit-calendar__day.is-today {
+  box-shadow: inset 0 0 0 var(--bit-px) var(--bit-info);
+}
+
+.bit-calendar__day.is-selected {
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+}
+
+.bit-calendar__day.is-outside {
+  color: var(--bit-muted);
+  opacity: 0.45;
+}
+
+.bit-calendar__day:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.bit-calendar__foot {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--bit-px-2);
+  margin-top: var(--bit-px-3);
+  padding-top: var(--bit-px-2);
+  border-top: var(--bit-px) solid var(--bit-border);
+}
+
+/* ==========================================================================
+   COMBOBOX (Autovervollstaendigung)
+   ========================================================================== */
+.bit-combobox {
+  position: relative;
+}
+
+.bit-combobox__list {
+  position: absolute;
+  z-index: 70;
+  top: calc(100% + var(--bit-px));
+  left: 0;
+  right: 0;
+  display: none;
+  max-height: calc(var(--bit-px) * 56);
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: var(--bit-surface);
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-border),
+    0 var(--bit-px) 0 0 var(--bit-border),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-border),
+    var(--bit-px) 0 0 0 var(--bit-border),
+    var(--bit-px-2) var(--bit-px-2) 0 0 var(--bit-shadow-c);
+}
+
+.bit-combobox.is-open .bit-combobox__list {
+  display: block;
+}
+
+.bit-combobox__option {
+  padding: var(--bit-px-2) var(--bit-px-3);
+  font-size: var(--bit-fs-sm);
+  cursor: pointer;
+}
+
+/* Tastatur- und Mausauswahl sehen gleich aus - sonst verliert man
+   beim Wechsel zwischen beiden die Orientierung. */
+.bit-combobox__option:hover,
+.bit-combobox__option.is-active {
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+}
+
+.bit-combobox__empty {
+  padding: var(--bit-px-3);
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-muted);
+}
+
+/* ==========================================================================
+   TAG-EINGABE
+   ========================================================================== */
+.bit-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bit-px-2);
+  padding: var(--bit-px-2);
+  background-color: var(--bit-surface);
+  cursor: text;
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-fc, var(--bit-border)),
+    0 var(--bit-px) 0 0 var(--bit-fc, var(--bit-border)),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-fc, var(--bit-border)),
+    var(--bit-px) 0 0 0 var(--bit-fc, var(--bit-border));
+}
+
+.bit-tags__input {
+  flex: 1 1 80px;
+  min-width: 80px;
+  border: 0;
+  outline: 0;
+  padding: var(--bit-px);
+  background: none;
+  color: var(--bit-text);
+  font-family: var(--bit-font-body);
+  font-size: var(--bit-fs-sm);
+}
+
+.bit-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bit-px);
+  padding: 0 var(--bit-px) 0 var(--bit-px-2);
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+  font-size: var(--bit-fs-xs);
+  line-height: var(--bit-px-6);
+}
+
+.bit-tag__remove {
+  padding: 0 var(--bit-px);
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.bit-tag__remove:hover {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   ZAHLENFELD
+   ========================================================================== */
+.bit-number {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+.bit-number .bit-input {
+  width: calc(var(--bit-px) * 20);
+  text-align: center;
+  /* Die nativen Pfeilchen passen nicht ins Raster. */
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.bit-number .bit-input::-webkit-outer-spin-button,
+.bit-number .bit-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.bit-number .bit-btn {
+  padding-inline: var(--bit-px-3);
+}
+
+.bit-number > * + * {
+  margin-left: var(--bit-px);
+}
+
+/* ==========================================================================
+   BEWERTUNG
+   Radio-Inputs im Hintergrund: per Tastatur bedienbar und ohne JS
+   absendbar.
+   ========================================================================== */
+.bit-rating {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: var(--bit-px);
+}
+
+.bit-rating input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.bit-rating label {
+  cursor: pointer;
+  color: var(--bit-muted);
+  opacity: 0.4;
+  line-height: 0;
+}
+
+/* row-reverse macht den Geschwister-Selektor moeglich: alle Sterne
+   VOR dem markierten im Quelltext stehen visuell danach. */
+.bit-rating input:checked ~ label,
+.bit-rating label:hover,
+.bit-rating label:hover ~ label {
+  color: var(--bit-warning);
+  opacity: 1;
+}
+
+.bit-rating input:focus-visible + label {
+  outline: var(--bit-px) dashed var(--bit-focus);
+  outline-offset: var(--bit-px);
+}
+
+.bit-rating--readonly label {
+  cursor: default;
+}
+
+/* ==========================================================================
+   DROPZONE
+   ========================================================================== */
+.bit-dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bit-px-2);
+  padding: var(--bit-px-8) var(--bit-px-4);
+  background-color: var(--bit-surface);
+  color: var(--bit-muted);
+  text-align: center;
+  cursor: pointer;
+  /* Gestrichelter Rahmen statt Pixel-Frame: signalisiert "hier fehlt noch was". */
+  border: var(--bit-px) dashed var(--bit-border);
+}
+
+.bit-dropzone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.bit-dropzone.is-dragover {
+  border-color: var(--bit-primary);
+  background-color: var(--bit-surface-alt);
+  color: var(--bit-text);
+}
+
+.bit-dropzone__hint {
+  font-size: var(--bit-fs-xs);
+}
+
+.bit-dropzone__files {
+  list-style: none;
+  margin: var(--bit-px-3) 0 0;
+  padding: 0;
+  width: 100%;
+  font-size: var(--bit-fs-xs);
+  color: var(--bit-text);
+}
+
+.bit-dropzone__files li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--bit-px-2);
+  padding: var(--bit-px) 0;
+}
+
+/* ==========================================================================
+   CODE-EINGABE (Einmalpasswort)
+   ========================================================================== */
+.bit-otp {
+  display: inline-flex;
+  gap: var(--bit-px-2);
+}
+
+.bit-otp input {
+  width: var(--bit-px-8);
+  height: calc(var(--bit-px) * 10);
+  padding: 0;
+  text-align: center;
+  background-color: var(--bit-surface);
+  color: var(--bit-text);
+  font-family: var(--bit-font);
+  font-size: var(--bit-fs-lg);
+  border: 0;
+  box-shadow:
+    0 calc(-1 * var(--bit-px)) 0 0 var(--bit-border),
+    0 var(--bit-px) 0 0 var(--bit-border),
+    calc(-1 * var(--bit-px)) 0 0 0 var(--bit-border),
+    var(--bit-px) 0 0 0 var(--bit-border);
+}
+
+/* ==========================================================================
+   PASSWORTSTAERKE
+   ========================================================================== */
+.bit-strength {
+  display: flex;
+  gap: var(--bit-px);
+  margin-top: var(--bit-px-2);
+}
+
+.bit-strength__bar {
+  flex: 1 1 0;
+  height: var(--bit-px-2);
+  background-color: var(--bit-surface-alt);
+}
+
+.bit-strength__bar.is-on {
+  background-color: var(--bit-strength-c, var(--bit-success));
+}
+
+.bit-strength[data-level="1"] { --bit-strength-c: var(--bit-danger); }
+.bit-strength[data-level="2"] { --bit-strength-c: var(--bit-warning); }
+.bit-strength[data-level="3"] { --bit-strength-c: var(--bit-info); }
+.bit-strength[data-level="4"] { --bit-strength-c: var(--bit-success); }
+
+/* ==========================================================================
+   SUCHFELD
+   ========================================================================== */
+.bit-search {
+  position: relative;
+  display: block;
+}
+
+.bit-search .bit-input {
+  padding-left: var(--bit-px-8);
+}
+
+.bit-search__icon {
+  position: absolute;
+  left: var(--bit-px-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--bit-muted);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   FORMULAR-RASTER
+   Zweispaltige Beschriftung ab Tablet, darunter gestapelt.
+   ========================================================================== */
+.bit-form-grid {
+  display: grid;
+  gap: var(--bit-px-4);
+}
+
+@media (min-width: 768px) {
+  .bit-form-grid--split {
+    grid-template-columns: var(--bit-label-w, 180px) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .bit-form-grid--split .bit-label {
+    padding-top: var(--bit-px-3);
+  }
+}

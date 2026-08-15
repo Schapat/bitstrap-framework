@@ -1,0 +1,152 @@
+/* ==========================================================================
+   BITSTRAP · 03 · Layout: Container, Grid, Stacks
+   12 Spalten auf CSS-Grid-Basis, Breakpoints wie gewohnt.
+   ========================================================================== */
+
+.bit-container,
+.bit-container-fluid {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--bit-gutter);
+}
+
+.bit-container {
+  max-width: var(--bit-container);
+}
+
+.bit-container--narrow {
+  max-width: 760px;
+}
+
+.bit-container--wide {
+  max-width: 1440px;
+}
+
+/* ---- Grid ---------------------------------------------------------------- */
+.bit-row {
+  display: grid;
+  grid-template-columns: repeat(var(--bit-columns), minmax(0, 1fr));
+  gap: var(--bit-gutter);
+}
+
+.bit-row--tight { gap: var(--bit-px-2); }
+.bit-row--loose { gap: var(--bit-px-8); }
+
+/* Spalte ohne Angabe: fuellt automatisch. */
+.bit-col {
+  grid-column: span 12;
+}
+
+.bit-col-1  { grid-column: span 1; }
+.bit-col-2  { grid-column: span 2; }
+.bit-col-3  { grid-column: span 3; }
+.bit-col-4  { grid-column: span 4; }
+.bit-col-5  { grid-column: span 5; }
+.bit-col-6  { grid-column: span 6; }
+.bit-col-7  { grid-column: span 7; }
+.bit-col-8  { grid-column: span 8; }
+.bit-col-9  { grid-column: span 9; }
+.bit-col-10 { grid-column: span 10; }
+.bit-col-11 { grid-column: span 11; }
+.bit-col-12 { grid-column: span 12; }
+
+@media (min-width: 480px) {
+  .bit-col-sm-1  { grid-column: span 1; }
+  .bit-col-sm-2  { grid-column: span 2; }
+  .bit-col-sm-3  { grid-column: span 3; }
+  .bit-col-sm-4  { grid-column: span 4; }
+  .bit-col-sm-5  { grid-column: span 5; }
+  .bit-col-sm-6  { grid-column: span 6; }
+  .bit-col-sm-7  { grid-column: span 7; }
+  .bit-col-sm-8  { grid-column: span 8; }
+  .bit-col-sm-9  { grid-column: span 9; }
+  .bit-col-sm-10 { grid-column: span 10; }
+  .bit-col-sm-11 { grid-column: span 11; }
+  .bit-col-sm-12 { grid-column: span 12; }
+}
+
+@media (min-width: 768px) {
+  .bit-col-md-1  { grid-column: span 1; }
+  .bit-col-md-2  { grid-column: span 2; }
+  .bit-col-md-3  { grid-column: span 3; }
+  .bit-col-md-4  { grid-column: span 4; }
+  .bit-col-md-5  { grid-column: span 5; }
+  .bit-col-md-6  { grid-column: span 6; }
+  .bit-col-md-7  { grid-column: span 7; }
+  .bit-col-md-8  { grid-column: span 8; }
+  .bit-col-md-9  { grid-column: span 9; }
+  .bit-col-md-10 { grid-column: span 10; }
+  .bit-col-md-11 { grid-column: span 11; }
+  .bit-col-md-12 { grid-column: span 12; }
+}
+
+@media (min-width: 1024px) {
+  .bit-col-lg-1  { grid-column: span 1; }
+  .bit-col-lg-2  { grid-column: span 2; }
+  .bit-col-lg-3  { grid-column: span 3; }
+  .bit-col-lg-4  { grid-column: span 4; }
+  .bit-col-lg-5  { grid-column: span 5; }
+  .bit-col-lg-6  { grid-column: span 6; }
+  .bit-col-lg-7  { grid-column: span 7; }
+  .bit-col-lg-8  { grid-column: span 8; }
+  .bit-col-lg-9  { grid-column: span 9; }
+  .bit-col-lg-10 { grid-column: span 10; }
+  .bit-col-lg-11 { grid-column: span 11; }
+  .bit-col-lg-12 { grid-column: span 12; }
+}
+
+@media (min-width: 1280px) {
+  .bit-col-xl-1  { grid-column: span 1; }
+  .bit-col-xl-2  { grid-column: span 2; }
+  .bit-col-xl-3  { grid-column: span 3; }
+  .bit-col-xl-4  { grid-column: span 4; }
+  .bit-col-xl-5  { grid-column: span 5; }
+  .bit-col-xl-6  { grid-column: span 6; }
+  .bit-col-xl-7  { grid-column: span 7; }
+  .bit-col-xl-8  { grid-column: span 8; }
+  .bit-col-xl-9  { grid-column: span 9; }
+  .bit-col-xl-10 { grid-column: span 10; }
+  .bit-col-xl-11 { grid-column: span 11; }
+  .bit-col-xl-12 { grid-column: span 12; }
+}
+
+/* ---- Stack & Cluster -----------------------------------------------------
+   Fuer die 90% der Faelle, in denen ein 12er-Grid Overkill ist. */
+.bit-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bit-stack-gap, var(--bit-px-4));
+}
+
+.bit-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bit-cluster-gap, var(--bit-px-3));
+}
+
+.bit-split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bit-px-4);
+}
+
+/* Automatisches Kachel-Grid ohne Spaltenzaehlen. */
+.bit-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--bit-tile-min, 260px), 1fr));
+  gap: var(--bit-gutter);
+}
+
+/* Vertikaler Abschnitt mit grosszuegigem Rhythmus. */
+.bit-section {
+  padding-block: var(--bit-px-8);
+}
+
+@media (min-width: 768px) {
+  .bit-section {
+    padding-block: calc(var(--bit-px) * 14);
+  }
+}

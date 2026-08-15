@@ -1,0 +1,69 @@
+{
+  "name": "bitstrap",
+  "version": "1.0.0",
+  "description": "Das 8-Bit-CSS-Framework. Pixel-Art-Komponenten fuer echte Webseiten - ohne Abhaengigkeiten.",
+  "keywords": [
+    "css",
+    "framework",
+    "8-bit",
+    "pixel-art",
+    "retro",
+    "ui",
+    "components",
+    "datepicker",
+    "no-dependencies"
+  ],
+  "license": "MIT",
+  "author": "Patrick Scharnow",
+  "homepage": "https://github.com/Schapat/bitstrap#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Schapat/bitstrap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Schapat/bitstrap/issues"
+  },
+  "type": "module",
+  "main": "dist/bitstrap.js",
+  "style": "dist/bitstrap.css",
+  "unpkg": "dist/bitstrap.min.js",
+  "jsdelivr": "dist/bitstrap.min.js",
+  "sideEffects": [
+    "*.css",
+    "./dist/*.js"
+  ],
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": "./dist/bitstrap.js",
+    "./ui": "./dist/bitstrap-ui.js",
+    "./forms": "./dist/bitstrap-forms.js",
+    "./locales": "./dist/bitstrap-locales.js",
+    "./bundle": "./dist/bitstrap.bundle.js",
+    "./css": "./dist/bitstrap.css",
+    "./css/min": "./dist/bitstrap.min.css",
+    "./css/no-icons": "./dist/bitstrap.no-icons.css",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "node build/build.mjs",
+    "watch": "node build/watch.mjs",
+    "sync": "node build/build.mjs && node build/sync-site.mjs",
+    "verify": "node build/verify.mjs",
+    "serve": "npm run sync && npx --yes serve site",
+    "start": "npm run sync && npx --yes serve site",
+    "prepublishOnly": "npm run build && npm run verify"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

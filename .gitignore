@@ -1,0 +1,17 @@
+node_modules/
+.DS_Store
+*.log
+*.tgz
+
+# dist/ wird bewusst NICHT ignoriert: Bitstrap soll sich ohne Build-Schritt
+# direkt aus dem Repository einbinden lassen.
+
+# Die Website lebt in einem eigenen Repository (Schapat/bitstrap-site).
+site/
+
+# Lokale Werkzeug-Konfiguration, nicht projektbezogen.
+.claude/
+
+# Anleitung fuer die einmalige Aufteilung der Repos - beschreibt einen
+# Zustand, den es nach der Trennung nicht mehr gibt.
+SPLIT.md

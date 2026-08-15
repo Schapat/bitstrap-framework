@@ -1,0 +1,183 @@
+/* ==========================================================================
+   BITSTRAP · 15 · RTL
+   Der Grossteil des Frameworks nutzt logische Eigenschaften und kippt
+   von allein. Hier stehen nur die Stellen, an denen bewusst physische
+   Richtungen verwendet werden - Sprechzipfel, Akzentkanten, Pfeile.
+   ========================================================================== */
+
+[dir="rtl"] .bit-alert,
+[dir="rtl"] .bit-toast {
+  border-left: 0;
+  border-right: var(--bit-px-2) solid var(--bit-alert-c, var(--bit-toast-c, var(--bit-info)));
+}
+
+[dir="rtl"] .bit-stat--accent {
+  border-left: 0;
+  border-right: var(--bit-px-2) solid var(--bit-primary);
+}
+
+[dir="rtl"] blockquote {
+  border-left: 0;
+  border-right: var(--bit-px-2) solid var(--bit-primary);
+}
+
+/* Menue-Cursor und Aufzaehlungspunkte wandern auf die andere Seite. */
+[dir="rtl"] .bit-list--menu .bit-list__item {
+  padding-left: var(--bit-px-4);
+  padding-right: var(--bit-px-8);
+}
+
+[dir="rtl"] .bit-list--menu .bit-list__item::before {
+  left: auto;
+  right: var(--bit-px-4);
+  content: "<";
+}
+
+[dir="rtl"] .bit-link-arrow {
+  padding-left: 0;
+  padding-right: var(--bit-px-6);
+}
+
+[dir="rtl"] .bit-link-arrow::before {
+  left: auto;
+  right: 0;
+  content: "<";
+}
+
+[dir="rtl"] .bit-ul {
+  padding-left: 0;
+  padding-right: var(--bit-px-6);
+}
+
+[dir="rtl"] .bit-ul > li::before {
+  left: auto;
+  right: calc(-1 * var(--bit-px-5));
+}
+
+[dir="rtl"] .bit-breadcrumb li + li::before {
+  content: "<";
+  margin-right: 0;
+  margin-left: var(--bit-px-2);
+}
+
+/* Dialog-Sprechzipfel spiegeln. */
+[dir="rtl"] .bit-dialog--tail::before,
+[dir="rtl"] .bit-dialog--tail::after {
+  left: auto;
+  right: var(--bit-px-8);
+}
+
+[dir="rtl"] .bit-dialog--tail-right::before,
+[dir="rtl"] .bit-dialog--tail-right::after {
+  right: auto;
+  left: var(--bit-px-8);
+}
+
+/* Dropdown, Popover, Kalender oeffnen zur anderen Seite. */
+[dir="rtl"] .bit-dropdown__menu {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .bit-dropdown__menu--right {
+  right: auto;
+  left: 0;
+}
+
+[dir="rtl"] .bit-calendar {
+  left: auto;
+  right: 0;
+}
+
+/* Select-Pfeil und Feld-Innenabstaende. */
+/* Der Pfeil besteht aus drei gestapelten Balken - alle drei muessen
+   auf die andere Seite. Die Treppe selbst bleibt symmetrisch, es
+   aendert sich nur der Bezugsrand. */
+[dir="rtl"] .bit-select {
+  padding-right: var(--bit-px-3);
+  padding-left: var(--bit-px-8);
+  background-position:
+    left calc(var(--bit-px) * 3) center,
+    left calc(var(--bit-px) * 3.5) center,
+    left calc(var(--bit-px) * 4) center;
+}
+
+[dir="rtl"] .bit-search .bit-input {
+  padding-left: var(--bit-px-3);
+  padding-right: var(--bit-px-8);
+}
+
+[dir="rtl"] .bit-search__icon {
+  left: auto;
+  right: var(--bit-px-3);
+}
+
+[dir="rtl"] .bit-datepicker .bit-input {
+  padding-right: var(--bit-px-3);
+  padding-left: var(--bit-px-8);
+}
+
+[dir="rtl"] .bit-datepicker__toggle {
+  right: auto;
+  left: var(--bit-px-2);
+}
+
+/* Zeitleiste und Baum spiegeln. */
+[dir="rtl"] .bit-timeline__item {
+  padding-left: 0;
+  padding-right: var(--bit-px-8);
+}
+
+[dir="rtl"] .bit-timeline__item::before {
+  left: auto;
+  right: var(--bit-px-2);
+}
+
+[dir="rtl"] .bit-timeline__marker {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .bit-tree__children {
+  margin-left: 0;
+  margin-right: var(--bit-px-3);
+  padding-left: 0;
+  padding-right: var(--bit-px-4);
+  border-left: 0;
+  border-right: var(--bit-px) dashed var(--bit-border);
+}
+
+[dir="rtl"] .bit-tree__row {
+  text-align: right;
+}
+
+/* Schalter laeuft in die andere Richtung. */
+[dir="rtl"] .bit-switch__track::before {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .bit-switch input:checked ~ .bit-switch__track::before {
+  transform: translateX(calc(-1 * var(--bit-px-4)));
+}
+
+/* App-Shell: Seitenleiste nach rechts. */
+[dir="rtl"] .bit-shell__sidebar {
+  border-right: 0;
+  border-left: var(--bit-px) solid var(--bit-border);
+}
+
+[dir="rtl"] .bit-drawer__panel {
+  border-right: 0;
+  border-left: var(--bit-px) solid var(--bit-border);
+}
+
+[dir="rtl"] .bit-btn-group--joined > .bit-btn + .bit-btn {
+  margin-left: 0;
+  margin-right: calc(-1 * var(--bit-px));
+}
+
+[dir="rtl"] .bit-skip-link {
+  left: auto;
+  right: var(--bit-px-4);
+}

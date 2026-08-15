@@ -1,0 +1,160 @@
+/* ==========================================================================
+   BITSTRAP · 04 · Buttons
+   ========================================================================== */
+
+.bit-btn {
+  --bit-btn-bg: var(--bit-surface);
+  --bit-btn-fg: var(--bit-text);
+  --bit-fhl: rgba(255, 255, 255, 0.35);
+  --bit-fsh: rgba(0, 0, 0, 0.25);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bit-px-2);
+  padding: var(--bit-px-3) var(--bit-px-5, var(--bit-px-4));
+  margin: 0;
+  background-color: var(--bit-btn-bg);
+  color: var(--bit-btn-fg);
+  font-family: var(--bit-font);
+  font-size: var(--bit-fs);
+  line-height: 1.4;
+  letter-spacing: var(--bit-ls);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: transform var(--bit-dur) var(--bit-step);
+}
+
+/* Der Klick: der Button rutscht eine Pixel-Einheit nach unten und
+   verliert seine Lichtkante - fuehlt sich an wie ein echter Hardware-Taster. */
+.bit-btn:active:not(:disabled),
+.bit-btn.is-active {
+  transform: translateY(var(--bit-px));
+  --bit-fhl: transparent;
+  --bit-fsh: transparent;
+}
+
+.bit-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.bit-btn:disabled,
+.bit-btn.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+/* ---- Varianten ----------------------------------------------------------- */
+.bit-btn--primary   { --bit-btn-bg: var(--bit-primary);   --bit-btn-fg: var(--bit-primary-fg); }
+.bit-btn--secondary { --bit-btn-bg: var(--bit-secondary); --bit-btn-fg: var(--bit-secondary-fg); }
+.bit-btn--success   { --bit-btn-bg: var(--bit-success);   --bit-btn-fg: var(--bit-success-fg); }
+.bit-btn--warning   { --bit-btn-bg: var(--bit-warning);   --bit-btn-fg: var(--bit-warning-fg); }
+.bit-btn--danger    { --bit-btn-bg: var(--bit-danger);    --bit-btn-fg: var(--bit-danger-fg); }
+.bit-btn--info      { --bit-btn-bg: var(--bit-info);      --bit-btn-fg: var(--bit-info-fg); }
+.bit-btn--dark      { --bit-btn-bg: var(--bit-dark);      --bit-btn-fg: var(--bit-dark-fg); }
+.bit-btn--light     { --bit-btn-bg: var(--bit-light);     --bit-btn-fg: var(--bit-light-fg); }
+
+/* Transparent, nur Rahmen. */
+.bit-btn--ghost {
+  --bit-btn-bg: transparent;
+  --bit-btn-fg: var(--bit-text);
+  --bit-fhl: transparent;
+  --bit-fsh: transparent;
+}
+
+/* Ganz ohne Rahmen - fuer Toolbars und Icon-Reihen. */
+.bit-btn--bare {
+  --bit-btn-bg: transparent;
+  --bit-btn-fg: var(--bit-text);
+  --bit-fw: 0px;
+  --bit-fhl: transparent;
+  --bit-fsh: transparent;
+}
+
+.bit-btn--bare:hover:not(:disabled) {
+  --bit-btn-bg: var(--bit-surface-alt);
+}
+
+/* ---- Groessen ------------------------------------------------------------ */
+.bit-btn--xs {
+  --bit-fw: calc(var(--bit-px) / 2);
+  padding: var(--bit-px) var(--bit-px-2);
+  font-size: var(--bit-fs-xs);
+}
+
+.bit-btn--sm {
+  padding: var(--bit-px-2) var(--bit-px-3);
+  font-size: var(--bit-fs-sm);
+}
+
+.bit-btn--lg {
+  padding: var(--bit-px-4) var(--bit-px-6);
+  font-size: var(--bit-fs-lg);
+}
+
+.bit-btn--xl {
+  padding: var(--bit-px-5, var(--bit-px-4)) var(--bit-px-8);
+  font-size: var(--bit-fs-xl);
+}
+
+.bit-btn--block {
+  display: flex;
+  width: 100%;
+}
+
+/* Quadratisch - fuer Icon-Buttons. */
+.bit-btn--icon {
+  padding: var(--bit-px-3);
+  aspect-ratio: 1;
+}
+
+/* ---- Button-Gruppe -------------------------------------------------------
+   Die Buttons ruecken um eine Rahmenstaerke zusammen, damit sich die
+   Kanten teilen statt sich zu verdoppeln. */
+.bit-btn-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--bit-px-2);
+}
+
+.bit-btn-group--joined {
+  gap: 0;
+}
+
+.bit-btn-group--joined > .bit-btn + .bit-btn {
+  margin-left: calc(-1 * var(--bit-px));
+}
+
+/* ---- Der "Start"-Button --------------------------------------------------
+   Pulsierender Call-to-Action wie auf dem Titelbildschirm. */
+.bit-btn--start {
+  --bit-btn-bg: var(--bit-primary);
+  --bit-btn-fg: var(--bit-primary-fg);
+  animation: bit-pulse 900ms var(--bit-step) infinite alternate;
+}
+
+@keyframes bit-pulse {
+  from { transform: translateY(0); }
+  to   { transform: translateY(calc(-1 * var(--bit-px))); }
+}
+
+/* Ladezustand: Text wird ausgeblendet, Spinner uebernimmt. */
+.bit-btn.is-loading {
+  color: transparent;
+  pointer-events: none;
+}
+
+.bit-btn.is-loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: var(--bit-px-3);
+  height: var(--bit-px-3);
+  background-color: var(--bit-btn-fg);
+  animation: bit-spin-block 600ms var(--bit-step) infinite;
+}

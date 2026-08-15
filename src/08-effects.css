@@ -1,0 +1,199 @@
+/* ==========================================================================
+   BITSTRAP · 08 · Effekte
+   Roehrenmonitor-Simulation, Animationen, Cursor, Hintergrundmuster
+   ========================================================================== */
+
+/* ---- CRT / SCANLINES -----------------------------------------------------
+   Als Overlay ueber einen Container legen. Bewusst dezent, damit der
+   Text darunter lesbar bleibt. */
+.bit-crt {
+  position: relative;
+  isolation: isolate;
+}
+
+.bit-crt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.16) 0,
+    rgba(0, 0, 0, 0.16) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Zusaetzliches Flackern - sparsam einsetzen. */
+.bit-crt--flicker::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background-color: rgba(255, 255, 255, 0.03);
+  animation: bit-flicker 120ms steps(2, end) infinite;
+}
+
+@keyframes bit-flicker {
+  0%, 100% { opacity: 0.15; }
+  50%      { opacity: 0.5; }
+}
+
+/* Vignette wie bei einer gewoelbten Bildroehre. */
+.bit-crt--vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  box-shadow: inset 0 0 calc(var(--bit-px) * 20) rgba(0, 0, 0, 0.45);
+}
+
+/* ---- HINTERGRUNDMUSTER ---------------------------------------------------- */
+
+/* Schachbrett-Dither. */
+.bit-bg-checker {
+  background-image: repeating-conic-gradient(
+    var(--bit-pattern-c, rgba(0, 0, 0, 0.06)) 0% 25%,
+    transparent 0% 50%
+  );
+  background-size: var(--bit-px-4) var(--bit-px-4);
+}
+
+/* Gitternetz. */
+.bit-bg-grid {
+  background-image:
+    linear-gradient(var(--bit-pattern-c, rgba(0, 0, 0, 0.08)) var(--bit-px) , transparent 0),
+    linear-gradient(90deg, var(--bit-pattern-c, rgba(0, 0, 0, 0.08)) var(--bit-px), transparent 0);
+  background-size: var(--bit-px-8) var(--bit-px-8);
+}
+
+/* Punktraster. */
+.bit-bg-dots {
+  background-image: radial-gradient(
+    var(--bit-pattern-c, rgba(0, 0, 0, 0.12)) var(--bit-px),
+    transparent 0
+  );
+  background-size: var(--bit-px-6) var(--bit-px-6);
+}
+
+/* Diagonale Warnstreifen. */
+.bit-bg-stripes {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--bit-pattern-c, rgba(0, 0, 0, 0.08)) 0,
+    var(--bit-pattern-c, rgba(0, 0, 0, 0.08)) var(--bit-px-2),
+    transparent var(--bit-px-2),
+    transparent var(--bit-px-4)
+  );
+}
+
+/* Sternenhimmel im Attract-Mode. */
+.bit-bg-stars {
+  background-color: var(--bit-c-void);
+  background-image:
+    radial-gradient(var(--bit-c-cloud) var(--bit-px), transparent 0),
+    radial-gradient(var(--bit-c-teal) var(--bit-px), transparent 0),
+    radial-gradient(var(--bit-c-gold) var(--bit-px), transparent 0);
+  background-size: 140px 140px, 220px 220px, 300px 300px;
+  background-position: 0 0, 60px 90px, 130px 40px;
+}
+
+/* ---- ANIMATIONEN ---------------------------------------------------------- */
+
+/* Schweben wie ein Sammelobjekt. */
+@keyframes bit-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(calc(-1 * var(--bit-px-2))); }
+}
+
+.bit-float {
+  animation: bit-float 1.2s steps(2, end) infinite;
+}
+
+/* Treffer-Feedback. */
+@keyframes bit-shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(calc(-1 * var(--bit-px))); }
+  75%      { transform: translateX(var(--bit-px)); }
+}
+
+.bit-shake {
+  animation: bit-shake 160ms steps(2, end) 3;
+}
+
+/* Aufblitzen bei Schaden oder Unverwundbarkeit. */
+@keyframes bit-flash {
+  0%, 100% { filter: none; }
+  50%      { filter: brightness(3) saturate(0); }
+}
+
+.bit-flash {
+  animation: bit-flash 240ms steps(2, end) 4;
+}
+
+/* Hochspringen. */
+@keyframes bit-jump {
+  0%   { transform: translateY(0); }
+  40%  { transform: translateY(calc(-1 * var(--bit-px-6))); }
+  100% { transform: translateY(0); }
+}
+
+.bit-jump:hover {
+  animation: bit-jump 300ms steps(3, end);
+}
+
+/* Farbzyklus wie bei Palettenanimation. */
+@keyframes bit-rainbow {
+  0%   { color: var(--bit-c-red); }
+  25%  { color: var(--bit-c-gold); }
+  50%  { color: var(--bit-c-green); }
+  75%  { color: var(--bit-c-teal); }
+  100% { color: var(--bit-c-red); }
+}
+
+.bit-rainbow {
+  animation: bit-rainbow 1.6s steps(1, end) infinite;
+}
+
+/* Text erscheint zeichenweise - der Rest wird per JS gesteuert,
+   hier nur der Cursor. */
+.bit-typewriter::after {
+  content: "_";
+  animation: bit-blink 600ms var(--bit-step) infinite;
+}
+
+.bit-typewriter.is-done::after {
+  content: "";
+}
+
+/* ---- PIXEL-CURSOR --------------------------------------------------------
+   Eigener Mauszeiger aus einer inline-SVG-Grafik. */
+.bit-cursor {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 8 8' shape-rendering='crispEdges'><path d='M0 0h1v1H0zM1 1h1v1H1zM0 1h1v5H0zM1 2h1v3H1zM2 3h1v2H2zM3 4h1v1H3zM2 5h1v1H2zM1 5h1v1H1z' fill='%23ffffff' stroke='%23000000' stroke-width='0.3'/></svg>") 0 0, auto;
+}
+
+/* ---- SPRITE-HELFER -------------------------------------------------------
+   Fuer echte Pixel-Grafiken: verhindert Interpolation beim Hochskalieren. */
+.bit-sprite {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: block;
+}
+
+/* Sprite-Animation ueber background-position, klassische Spritesheet-Technik.
+   --bit-frames = Anzahl Einzelbilder nebeneinander. */
+.bit-sprite-anim {
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  animation: bit-sprite-play var(--bit-sprite-dur, 800ms)
+             steps(var(--bit-frames, 4)) infinite;
+}
+
+@keyframes bit-sprite-play {
+  from { background-position: 0 0; }
+  to   { background-position: -100% 0; }
+}

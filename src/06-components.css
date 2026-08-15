@@ -1,0 +1,536 @@
+/* ==========================================================================
+   BITSTRAP · 06 · Komponenten
+   Card, Alert, Badge, Dialog, Table, List, Avatar, Progress, Pagination,
+   Breadcrumb, Spinner, Divider, Kbd-Hint
+   ========================================================================== */
+
+/* ---- CARD ---------------------------------------------------------------- */
+.bit-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bit-surface);
+  color: var(--bit-text);
+}
+
+.bit-card__media {
+  display: block;
+  width: 100%;
+  border-bottom: var(--bit-px) solid var(--bit-border);
+}
+
+.bit-card__header {
+  padding: var(--bit-px-3) var(--bit-px-4);
+  border-bottom: var(--bit-px) solid var(--bit-border);
+  font-size: var(--bit-fs);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bit-px-3);
+}
+
+.bit-card__body {
+  padding: var(--bit-px-4);
+  flex: 1 1 auto;
+}
+
+.bit-card__footer {
+  padding: var(--bit-px-3) var(--bit-px-4);
+  border-top: var(--bit-px) solid var(--bit-border);
+  background-color: var(--bit-surface-alt);
+}
+
+.bit-card__title {
+  margin: 0 0 var(--bit-px-2);
+  font-size: var(--bit-h5);
+}
+
+.bit-card > :last-child {
+  margin-bottom: 0;
+}
+
+.bit-card--primary { --bit-fc: var(--bit-primary); }
+.bit-card--success { --bit-fc: var(--bit-success); }
+.bit-card--danger  { --bit-fc: var(--bit-danger); }
+
+.bit-card--dark {
+  background-color: var(--bit-dark);
+  color: var(--bit-dark-fg);
+}
+
+.bit-card--dark .bit-card__header,
+.bit-card--dark .bit-card__footer {
+  border-color: var(--bit-dark-fg);
+}
+
+.bit-card--dark .bit-card__footer {
+  background-color: transparent;
+}
+
+/* Anklickbare Karte, die auf Hover leicht "anspringt". */
+.bit-card--interactive {
+  transition: transform var(--bit-dur) var(--bit-step);
+  cursor: pointer;
+}
+
+.bit-card--interactive:hover,
+.bit-card--interactive:focus-within {
+  transform: translate(calc(-1 * var(--bit-px)), calc(-1 * var(--bit-px)));
+  --bit-fdx: var(--bit-px-2);
+  --bit-fdy: var(--bit-px-2);
+  --bit-fdc: var(--bit-shadow-c);
+}
+
+/* ---- ALERT --------------------------------------------------------------- */
+.bit-alert {
+  --bit-alert-c: var(--bit-info);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--bit-px-3);
+  padding: var(--bit-px-4);
+  margin-bottom: var(--bit-px-4);
+  background-color: var(--bit-surface);
+  color: var(--bit-text);
+  border-left: var(--bit-px-2) solid var(--bit-alert-c);
+}
+
+.bit-alert__body { flex: 1 1 auto; }
+.bit-alert__title {
+  margin: 0 0 var(--bit-px);
+  font-size: var(--bit-fs);
+  color: var(--bit-alert-c);
+}
+.bit-alert__body > :last-child { margin-bottom: 0; }
+
+.bit-alert--success { --bit-alert-c: var(--bit-success); }
+.bit-alert--warning { --bit-alert-c: var(--bit-warning); }
+.bit-alert--danger  { --bit-alert-c: var(--bit-danger); }
+.bit-alert--info    { --bit-alert-c: var(--bit-info); }
+
+/* Vollflaechige Variante. */
+.bit-alert--solid {
+  background-color: var(--bit-alert-c);
+  color: var(--bit-c-cloud);
+  border-left: 0;
+}
+
+.bit-alert--solid .bit-alert__title { color: inherit; }
+
+/* ---- BADGE --------------------------------------------------------------- */
+.bit-badge {
+  --bit-fw: calc(var(--bit-px) / 2);
+  --bit-badge-bg: var(--bit-surface-alt);
+  --bit-badge-fg: var(--bit-text);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bit-px);
+  padding: calc(var(--bit-px) / 2) var(--bit-px-2);
+  background-color: var(--bit-badge-bg);
+  color: var(--bit-badge-fg);
+  font-size: var(--bit-fs-xs);
+  line-height: 1.6;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.bit-badge--primary { --bit-badge-bg: var(--bit-primary); --bit-badge-fg: var(--bit-primary-fg); }
+.bit-badge--success { --bit-badge-bg: var(--bit-success); --bit-badge-fg: var(--bit-success-fg); }
+.bit-badge--warning { --bit-badge-bg: var(--bit-warning); --bit-badge-fg: var(--bit-warning-fg); }
+.bit-badge--danger  { --bit-badge-bg: var(--bit-danger);  --bit-badge-fg: var(--bit-danger-fg); }
+.bit-badge--info    { --bit-badge-bg: var(--bit-info);    --bit-badge-fg: var(--bit-info-fg); }
+.bit-badge--dark    { --bit-badge-bg: var(--bit-dark);    --bit-badge-fg: var(--bit-dark-fg); }
+
+/* Zaehler-Punkt an einem Button/Avatar. */
+.bit-badge--float {
+  position: absolute;
+  top: calc(-1 * var(--bit-px-2));
+  right: calc(-1 * var(--bit-px-2));
+}
+
+/* ==========================================================================
+   DIALOG-BOX
+   Die klassische Textbox aus Rollenspielen: Doppelrahmen, optional mit
+   Sprechzipfel und blinkendem "Weiter"-Pfeil.
+   ========================================================================== */
+.bit-dialog {
+  position: relative;
+  padding: var(--bit-px-5);
+  background-color: var(--bit-surface);
+  color: var(--bit-text);
+}
+
+.bit-dialog__speaker {
+  display: inline-block;
+  margin-bottom: var(--bit-px-3);
+  color: var(--bit-primary);
+  font-size: var(--bit-fs-sm);
+}
+
+.bit-dialog > :last-child { margin-bottom: 0; }
+
+/* Blinkender Weiter-Indikator unten rechts. */
+.bit-dialog--next::after {
+  content: "";
+  position: absolute;
+  right: var(--bit-px-4);
+  bottom: var(--bit-px-3);
+  width: 0;
+  height: 0;
+  border-left: var(--bit-px-2) solid transparent;
+  border-right: var(--bit-px-2) solid transparent;
+  border-top: var(--bit-px-2) solid var(--bit-text);
+  animation: bit-blink 700ms var(--bit-step) infinite;
+}
+
+/* Sprechzipfel. Zwei Ebenen: erst die Rahmenfarbe, darueber die Fuellung -
+   so bleibt die Kontur um den Zipfel herum geschlossen. */
+.bit-dialog--tail::before,
+.bit-dialog--tail::after {
+  content: "";
+  position: absolute;
+  left: var(--bit-px-8);
+  width: 0;
+  height: 0;
+  border-left: var(--bit-px-4) solid transparent;
+  border-right: var(--bit-px-4) solid transparent;
+}
+
+.bit-dialog--tail::before {
+  bottom: calc(-1 * var(--bit-px-4) - var(--bit-px));
+  border-top: var(--bit-px-4) solid var(--bit-fc);
+}
+
+.bit-dialog--tail::after {
+  bottom: calc(-1 * var(--bit-px-4) + var(--bit-px));
+  border-top: var(--bit-px-4) solid var(--bit-surface);
+}
+
+.bit-dialog--tail-right::before,
+.bit-dialog--tail-right::after {
+  left: auto;
+  right: var(--bit-px-8);
+}
+
+.bit-dialog--dark {
+  background-color: var(--bit-c-void);
+  color: var(--bit-c-paper);
+  --bit-fc: var(--bit-c-paper);
+}
+
+.bit-dialog--dark.bit-dialog--tail::after {
+  border-top-color: var(--bit-c-void);
+}
+
+/* ---- TABLE --------------------------------------------------------------- */
+.bit-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--bit-surface);
+  font-size: var(--bit-fs-sm);
+}
+
+.bit-table th,
+.bit-table td {
+  padding: var(--bit-px-3);
+  text-align: left;
+  border-bottom: var(--bit-px) solid var(--bit-border);
+}
+
+.bit-table thead th {
+  background-color: var(--bit-dark);
+  color: var(--bit-dark-fg);
+  font-weight: 400;
+}
+
+.bit-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.bit-table--striped tbody tr:nth-child(odd) {
+  background-color: var(--bit-surface-alt);
+}
+
+.bit-table--hover tbody tr:hover {
+  background-color: var(--bit-warning);
+  color: var(--bit-warning-fg);
+}
+
+/* Auf kleinen Schirmen scrollt die Tabelle in ihrem eigenen Container,
+   statt die Seite horizontal zu sprengen. */
+.bit-table-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* ---- LIST-GROUP ---------------------------------------------------------- */
+.bit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bit-surface);
+}
+
+.bit-list__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bit-px-3);
+  padding: var(--bit-px-3) var(--bit-px-4);
+  border-bottom: var(--bit-px) solid var(--bit-border);
+}
+
+.bit-list__item:last-child { border-bottom: 0; }
+
+a.bit-list__item {
+  text-decoration: none;
+  color: var(--bit-text);
+}
+
+a.bit-list__item:hover,
+.bit-list__item.is-active {
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+}
+
+/* Auswahl-Cursor im Menuestil. */
+.bit-list--menu .bit-list__item {
+  position: relative;
+  padding-left: var(--bit-px-8);
+  cursor: pointer;
+}
+
+.bit-list--menu .bit-list__item::before {
+  content: ">";
+  position: absolute;
+  left: var(--bit-px-4);
+  opacity: 0;
+}
+
+.bit-list--menu .bit-list__item:hover::before,
+.bit-list--menu .bit-list__item.is-active::before {
+  opacity: 1;
+}
+
+/* ---- AVATAR -------------------------------------------------------------- */
+.bit-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: var(--bit-avatar-size, calc(var(--bit-px) * 12));
+  height: var(--bit-avatar-size, calc(var(--bit-px) * 12));
+  background-color: var(--bit-surface-alt);
+  color: var(--bit-text);
+  font-size: var(--bit-fs);
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.bit-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bit-avatar--sm { --bit-avatar-size: var(--bit-px-8); font-size: var(--bit-fs-xs); }
+.bit-avatar--lg { --bit-avatar-size: calc(var(--bit-px) * 18); font-size: var(--bit-fs-lg); }
+
+/* ---- PROGRESS ------------------------------------------------------------ */
+.bit-progress {
+  --bit-progress-c: var(--bit-success);
+  display: block;
+  width: 100%;
+  height: var(--bit-px-5);
+  background-color: var(--bit-surface-alt);
+  overflow: hidden;
+  position: relative;
+}
+
+.bit-progress__bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  background-color: var(--bit-progress-c);
+  transition: width var(--bit-dur) var(--bit-step);
+}
+
+/* Segmentiert: die Fuellung wird von Luecken in Pixelbreite zerschnitten,
+   wie eine Energieleiste aus einzelnen Bloecken. */
+.bit-progress--segmented .bit-progress__bar {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--bit-progress-c) 0,
+    var(--bit-progress-c) var(--bit-px-3),
+    transparent var(--bit-px-3),
+    transparent var(--bit-px-4)
+  );
+}
+
+.bit-progress--striped .bit-progress__bar {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.28) 0,
+    rgba(255, 255, 255, 0.28) var(--bit-px-2),
+    transparent var(--bit-px-2),
+    transparent var(--bit-px-4)
+  );
+  background-size: var(--bit-px-6) var(--bit-px-6);
+  animation: bit-stripes 700ms linear infinite;
+}
+
+@keyframes bit-stripes {
+  from { background-position: 0 0; }
+  to   { background-position: var(--bit-px-6) 0; }
+}
+
+.bit-progress--lg { height: var(--bit-px-8); }
+.bit-progress--sm { height: var(--bit-px-3); }
+
+.bit-progress--danger  { --bit-progress-c: var(--bit-danger); }
+.bit-progress--warning { --bit-progress-c: var(--bit-warning); }
+.bit-progress--info    { --bit-progress-c: var(--bit-info); }
+
+/* ---- HEALTH / LIVES ------------------------------------------------------
+   Herzenleiste. Jedes Herz ist ein Icon; leere Herzen bekommen weniger
+   Deckkraft statt einer zweiten Grafik. */
+.bit-hearts {
+  display: inline-flex;
+  gap: var(--bit-px);
+  align-items: center;
+}
+
+.bit-hearts .bit-icon {
+  color: var(--bit-danger);
+}
+
+.bit-hearts .bit-icon.is-empty {
+  color: var(--bit-muted);
+  opacity: 0.4;
+}
+
+/* ---- PAGINATION ---------------------------------------------------------- */
+.bit-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bit-px-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bit-pagination__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--bit-px-8);
+  padding: var(--bit-px-2) var(--bit-px-3);
+  background-color: var(--bit-surface);
+  color: var(--bit-text);
+  text-decoration: none;
+  font-size: var(--bit-fs-sm);
+}
+
+.bit-pagination__link:hover {
+  background-color: var(--bit-surface-alt);
+}
+
+.bit-pagination__link.is-active {
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+}
+
+.bit-pagination__link.is-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ---- BREADCRUMB ---------------------------------------------------------- */
+.bit-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bit-px-2);
+  list-style: none;
+  margin: 0 0 var(--bit-px-4);
+  padding: 0;
+  font-size: var(--bit-fs-sm);
+}
+
+.bit-breadcrumb li + li::before {
+  content: ">";
+  margin-right: var(--bit-px-2);
+  color: var(--bit-muted);
+}
+
+.bit-breadcrumb a {
+  text-decoration: none;
+}
+
+/* ---- SPINNER / LOADER ---------------------------------------------------- */
+.bit-spinner {
+  display: inline-block;
+  width: var(--bit-px-6);
+  height: var(--bit-px-6);
+  position: relative;
+}
+
+/* Ein Block, der die vier Ecken abläuft - kein rotierender Kreis. */
+.bit-spinner::before {
+  content: "";
+  position: absolute;
+  width: var(--bit-px-2);
+  height: var(--bit-px-2);
+  background-color: var(--bit-spinner-c, var(--bit-primary));
+  animation: bit-orbit 800ms steps(1, end) infinite;
+}
+
+@keyframes bit-orbit {
+  0%   { top: 0; left: 0; }
+  25%  { top: 0; left: var(--bit-px-4); }
+  50%  { top: var(--bit-px-4); left: var(--bit-px-4); }
+  75%  { top: var(--bit-px-4); left: 0; }
+  100% { top: 0; left: 0; }
+}
+
+@keyframes bit-spin-block {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(0.4); opacity: 0.5; }
+}
+
+/* Punktreihe, die nacheinander aufleuchtet ("Laedt..."). */
+.bit-dots {
+  display: inline-flex;
+  gap: var(--bit-px);
+}
+
+.bit-dots span {
+  width: var(--bit-px-2);
+  height: var(--bit-px-2);
+  background-color: var(--bit-spinner-c, var(--bit-primary));
+  animation: bit-dot 900ms steps(2, end) infinite;
+}
+
+.bit-dots span:nth-child(2) { animation-delay: 150ms; }
+.bit-dots span:nth-child(3) { animation-delay: 300ms; }
+
+@keyframes bit-dot {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 1; }
+}
+
+/* ---- DIVIDER ------------------------------------------------------------- */
+.bit-divider {
+  height: var(--bit-px);
+  margin: var(--bit-px-6) 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--bit-border) 0,
+    var(--bit-border) var(--bit-px-2),
+    transparent var(--bit-px-2),
+    transparent var(--bit-px-4)
+  );
+}
+
+.bit-divider--solid {
+  background-image: none;
+  background-color: var(--bit-border);
+}

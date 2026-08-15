@@ -1,0 +1,120 @@
+/* ==========================================================================
+   BITSTRAP · 16 · Weitere Utilities
+   ========================================================================== */
+
+/* ---- Seitenverhaeltnis --------------------------------------------------- */
+.bit-aspect-square { aspect-ratio: 1 !important; }
+.bit-aspect-video  { aspect-ratio: 16 / 9 !important; }
+.bit-aspect-4-3    { aspect-ratio: 4 / 3 !important; }
+
+.bit-object-cover   { object-fit: cover !important; }
+.bit-object-contain { object-fit: contain !important; }
+
+/* ---- Ebenen -------------------------------------------------------------- */
+.bit-z-0    { z-index: 0 !important; }
+.bit-z-10   { z-index: 10 !important; }
+.bit-z-20   { z-index: 20 !important; }
+.bit-z-40   { z-index: 40 !important; }
+.bit-z-top  { z-index: 999 !important; }
+
+/* ---- Reihenfolge --------------------------------------------------------- */
+.bit-order-first { order: -1 !important; }
+.bit-order-last  { order: 999 !important; }
+
+/* ---- Grid-Spannweiten ausserhalb von .bit-row ---------------------------- */
+.bit-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.bit-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+.bit-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+
+@media (max-width: 767.98px) {
+  .bit-grid-2,
+  .bit-grid-3,
+  .bit-grid-4 {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* ---- Text auf mehrere Zeilen kuerzen ------------------------------------- */
+.bit-clamp-2,
+.bit-clamp-3 {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  overflow: hidden !important;
+}
+
+.bit-clamp-2 { -webkit-line-clamp: 2; line-clamp: 2; }
+.bit-clamp-3 { -webkit-line-clamp: 3; line-clamp: 3; }
+
+/* ---- Breiten ------------------------------------------------------------- */
+.bit-w-fit    { width: fit-content !important; }
+.bit-max-w-sm { max-width: 380px !important; }
+.bit-max-w-md { max-width: 640px !important; }
+.bit-max-w-lg { max-width: 900px !important; }
+
+/* ---- Sichtbarkeit ohne Layout-Sprung ------------------------------------- */
+.bit-invisible { visibility: hidden !important; }
+.bit-opacity-0 { opacity: 0 !important; }
+
+/* ---- Interaktion --------------------------------------------------------- */
+.bit-no-events { pointer-events: none !important; }
+.bit-select-none { user-select: none !important; }
+.bit-resize-none { resize: none !important; }
+
+/* ---- Scrollen ------------------------------------------------------------ */
+.bit-scroll-x {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
+
+.bit-scroll-y {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Scrollbar im Pixel-Look. Nur dort, wo der Browser es zulaesst. */
+.bit-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--bit-border) var(--bit-surface-alt);
+}
+
+.bit-scrollbar::-webkit-scrollbar {
+  width: var(--bit-px-3);
+  height: var(--bit-px-3);
+}
+
+.bit-scrollbar::-webkit-scrollbar-track {
+  background-color: var(--bit-surface-alt);
+}
+
+.bit-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--bit-border);
+  box-shadow: inset 0 0 0 var(--bit-px) var(--bit-surface-alt);
+}
+
+/* ---- Druck ---------------------------------------------------------------
+   Pixel-Rahmen aus Schatten drucken viele Browser nicht mit. Fuer den
+   Druck werden daraus echte Linien. */
+@media print {
+  .bit-frame,
+  .bit-card,
+  .bit-alert,
+  .bit-table,
+  .bit-dialog {
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+  }
+
+  .bit-navbar,
+  .bit-drawer,
+  .bit-modal,
+  .bit-toast-container,
+  .site-header,
+  .docs__nav {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+}

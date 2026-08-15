@@ -1,0 +1,166 @@
+/* ==========================================================================
+   BITSTRAP · 01 · Reset, Basis & das Pixel-Frame-System
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bit-bg);
+  color: var(--bit-text);
+  font-family: var(--bit-font-body);
+  font-size: var(--bit-fs);
+  line-height: var(--bit-lh);
+  letter-spacing: var(--bit-ls);
+  /* Font-Smoothing AUS: Pixelschriften sollen hart sein, nicht weichgezeichnet. */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
+}
+
+/* Nichts ist rund. Niemals.
+   Bewusst ohne !important und mit Spezifitaet 0: das ueberschreibt die
+   Browser-Defaults (Inputs, Buttons), laesst aber eingebettete Fremd-Widgets
+   in Ruhe, sobald die eine eigene Klasse mitbringen. */
+* {
+  border-radius: 0;
+}
+
+/* Bilder pixelig hochskalieren statt interpolieren. */
+img,
+canvas,
+video,
+svg {
+  max-width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+hr {
+  border: 0;
+  height: var(--bit-px);
+  background-color: var(--bit-border);
+  margin: var(--bit-px-6) 0;
+}
+
+::selection {
+  background-color: var(--bit-primary);
+  color: var(--bit-primary-fg);
+}
+
+/* --------------------------------------------------------------------------
+   FOKUS
+   Gestrichelter Pixel-Ring statt weichem Glow. Immer sichtbar halten -
+   Retro-Optik ist kein Grund, Tastaturnutzer auszusperren.
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: var(--bit-px) dashed var(--bit-focus);
+  outline-offset: var(--bit-px);
+}
+
+/* ==========================================================================
+   DAS PIXEL-FRAME
+   Kein `border`, sondern vier versetzte box-shadows. Dadurch fehlen die
+   Eckpixel - genau das erzeugt die abgetreppte 8-Bit-Silhouette.
+   Steuerbar pro Element ueber:
+     --bit-fw   Rahmenstaerke      (Standard: 1 Pixel-Einheit)
+     --bit-fc   Rahmenfarbe
+     --bit-fhl  innere Lichtkante  (oben)
+     --bit-fsh  innere Schattenkante (unten)
+     --bit-fdx/--bit-fdy/--bit-fdc  versetzter Schlagschatten
+   -------------------------------------------------------------------------- */
+.bit-frame,
+.bit-btn,
+.bit-card,
+.bit-alert,
+.bit-badge,
+.bit-input,
+.bit-select,
+.bit-textarea,
+.bit-table,
+.bit-dialog,
+.bit-modal__box,
+.bit-dropdown__menu,
+.bit-toast,
+.bit-progress,
+.bit-meter,
+.bit-avatar,
+.bit-tabs__panel,
+.bit-accordion,
+.bit-list,
+.bit-pagination__link,
+.bit-tooltip__bubble,
+.bit-navbar--framed {
+  --bit-fw: var(--bit-px);
+  --bit-fc: var(--bit-border);
+  --bit-fhl: transparent;
+  --bit-fsh: transparent;
+  --bit-fdx: 0px;
+  --bit-fdy: 0px;
+  --bit-fdc: transparent;
+
+  border: 0;
+  box-shadow:
+    inset 0 var(--bit-fw) 0 0 var(--bit-fhl),
+    inset 0 calc(-1 * var(--bit-fw)) 0 0 var(--bit-fsh),
+    0 calc(-1 * var(--bit-fw)) 0 0 var(--bit-fc),
+    0 var(--bit-fw) 0 0 var(--bit-fc),
+    calc(-1 * var(--bit-fw)) 0 0 0 var(--bit-fc),
+    var(--bit-fw) 0 0 0 var(--bit-fc),
+    var(--bit-fdx) var(--bit-fdy) 0 0 var(--bit-fdc);
+}
+
+/* Schlagschatten-Modifier. Kombinierbar mit jeder Frame-Komponente. */
+.bit-shadow {
+  --bit-fdx: var(--bit-px-2);
+  --bit-fdy: var(--bit-px-2);
+  --bit-fdc: var(--bit-shadow-c);
+}
+
+.bit-shadow-lg {
+  --bit-fdx: var(--bit-px-3);
+  --bit-fdy: var(--bit-px-3);
+  --bit-fdc: var(--bit-shadow-c);
+}
+
+/* Doppelrahmen im Stil klassischer RPG-Menues:
+   aussen dunkel, innen eine zweite Linie mit Abstand. */
+.bit-frame--double {
+  outline: var(--bit-px) solid var(--bit-fc);
+  outline-offset: var(--bit-px-2);
+}
+
+/* Rahmen ohne Eckenschnitt (schlichter, fuer dichte Tabellen/Listen). */
+.bit-frame--flat {
+  box-shadow: none;
+  border: var(--bit-fw) solid var(--bit-fc);
+}
+
+/* --------------------------------------------------------------------------
+   REDUZIERTE BEWEGUNG
+   Alle Animationen des Frameworks werden hier stillgelegt.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
