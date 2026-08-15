@@ -1,7 +1,14 @@
 # Bitstrap
 
 **Das 8-Bit-CSS-Framework.** Grid, Komponenten, Formulare, Icons und JavaScript
-im Pixel-Art-Stil — ohne Abhängigkeiten, ohne Build-Zwang, ~13 KB gzip.
+im Pixel-Art-Stil — ohne Abhängigkeiten, ohne Build-Zwang, ~17 KB gzip.
+
+### → [Website & Dokumentation ansehen](https://schapat.github.io/bitstrap-site/)
+
+Dort findest du fertige Blöcke zum Kopieren (Anmeldung, Dashboard, Preise,
+Einstellungen, Bestellvorgang, Profil), alle Komponenten zum Ausprobieren und
+sechs Themes zum Durchschalten. Der Quelltext der Seite liegt in
+[Schapat/bitstrap-site](https://github.com/Schapat/bitstrap-site).
 
 ```html
 <link rel="stylesheet" href="bitstrap.min.css">
