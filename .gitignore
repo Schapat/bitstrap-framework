@@ -6,8 +6,8 @@ node_modules/
 # dist/ wird bewusst NICHT ignoriert: Bitstrap soll sich ohne Build-Schritt
 # direkt aus dem Repository einbinden lassen.
 
-# Die Website lebt in einem eigenen Repository (Schapat/bitstrap-site).
-site/
+# Die Website lebt in einem eigenen Repository:
+# https://github.com/Schapat/bitstrap
 
 # Lokale Werkzeug-Konfiguration, nicht projektbezogen.
 .claude/

@@ -54,10 +54,8 @@
   "scripts": {
     "build": "node build/build.mjs",
     "watch": "node build/watch.mjs",
-    "sync": "node build/build.mjs && node build/sync-site.mjs",
     "verify": "node build/verify.mjs",
-    "serve": "npm run sync && npx --yes serve site",
-    "start": "npm run sync && npx --yes serve site",
+    "sync": "node build/build.mjs && node build/sync-site.mjs ../bitstrap-site",
     "prepublishOnly": "npm run build && npm run verify"
   },
   "engines": {

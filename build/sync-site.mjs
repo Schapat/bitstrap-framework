@@ -13,14 +13,25 @@
  */
 
 import {
-  readdirSync, readFileSync, mkdirSync, copyFileSync, statSync, writeFileSync
+  readdirSync, readFileSync, mkdirSync, copyFileSync, statSync, writeFileSync,
+  existsSync
 } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FROM = join(ROOT, "dist");
-const TO = join(ROOT, "site", "vendor");
+
+/* Die Website liegt in einem eigenen Repository. Ziel als Argument,
+   Standard ist das Nachbarverzeichnis:  node build/sync-site.mjs ../bitstrap-site */
+const SITE = process.argv[2] || join(ROOT, "..", "bitstrap-site");
+const TO = join(SITE, "vendor");
+
+if (!existsSync(SITE)) {
+  console.error(`Website-Verzeichnis nicht gefunden: ${SITE}`);
+  console.error("Aufruf: node build/sync-site.mjs <pfad-zum-website-repo>");
+  process.exit(1);
+}
 
 const VERSION = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8")).version;
 
@@ -48,5 +59,5 @@ writeFileSync(
 );
 
 console.log(
-  `site/vendor/: ${copied} Dateien (${(bytes / 1024).toFixed(1)} KB) aktualisiert.`
+  `${TO}: ${copied} Dateien (${(bytes / 1024).toFixed(1)} KB) aktualisiert.`
 );

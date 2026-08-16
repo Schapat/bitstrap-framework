@@ -16,7 +16,19 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CSS = readFileSync(join(ROOT, "dist", "bitstrap.css"), "utf8");
-const DOCS_CSS = readFileSync(join(ROOT, "site", "assets", "docs.css"), "utf8");
+
+/* Die Website liegt in einem eigenen Repository. Liegt sie nicht
+   daneben, wird die Pruefung uebersprungen statt abzubrechen - sonst
+   scheitert npm publish auf einem Rechner ohne Website-Klon. */
+const SITE = process.argv[2] || join(ROOT, "..", "bitstrap-site");
+
+if (!existsSync(join(SITE, "assets", "docs.css"))) {
+  console.log(`Website nicht gefunden (${SITE}) - Pruefung uebersprungen.`);
+  console.log("Aufruf mit Pfad: node build/verify.mjs <pfad-zum-website-repo>");
+  process.exit(0);
+}
+
+const DOCS_CSS = readFileSync(join(SITE, "assets", "docs.css"), "utf8");
 
 /* Alle im CSS definierten Klassennamen einsammeln. */
 const defined = new Set();
@@ -50,10 +62,10 @@ function stripCodeBlocks(html) {
   return html.replace(/<pre[\s\S]*?<\/pre>/g, "").replace(/<code[\s\S]*?<\/code>/g, "");
 }
 
-for (const file of htmlFiles(join(ROOT, "site"))) {
+for (const file of htmlFiles(SITE)) {
   const raw = readFileSync(file, "utf8");
   const html = stripCodeBlocks(raw);
-  const rel = file.slice(ROOT.length + 1);
+  const rel = file.slice(SITE.length + 1);
   const dir = dirname(file);
   const problems = [];
 

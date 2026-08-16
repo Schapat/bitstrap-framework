@@ -190,10 +190,16 @@ Danach `node build/build.mjs` — fertig ist `.bit-icon--krone`.
 ## Entwicklung
 
 ```bash
-node build/build.mjs    # einmal bauen
-node build/watch.mjs    # bei Änderungen neu bauen
-npm run verify          # Klassennamen und Verweise pruefen
+npm run build     # dist/ bauen
+npm run watch     # bei Änderungen neu bauen
+npm run verify    # Klassennamen und Verweise prüfen
+npm run sync      # dist/ in das Website-Repo kopieren
 ```
+
+`verify` und `sync` erwarten das Website-Repository als Nachbarordner
+(`../bitstrap-site`). Ein anderer Pfad geht als Argument:
+`node build/verify.mjs ../woanders`. Fehlt es, überspringt `verify`
+seine Prüfung, statt abzubrechen.
 
 Der Build hat **keine Abhängigkeiten** — nur Node ≥ 18. Er generiert die
 Icon- und Utility-Regeln, hängt die Quelldateien in fester Reihenfolge
