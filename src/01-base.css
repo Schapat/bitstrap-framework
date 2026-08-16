@@ -27,6 +27,11 @@ body {
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: grayscale;
   font-smooth: never;
+  /* Lange URLs, Dateinamen und Code-Schnipsel im Fliesstext haben keine
+     Umbruchstelle und schieben sonst die ganze Seite auf - in einer
+     Pixelschrift doppelt schnell. Wird vererbt; <pre> bleibt davon
+     unberuehrt, weil white-space: pre den Umbruch ohnehin unterbindet. */
+  overflow-wrap: break-word;
 }
 
 /* Nichts ist rund. Niemals.

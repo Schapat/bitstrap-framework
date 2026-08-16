@@ -1,5 +1,5 @@
 /*!
- * Bitstrap v1.0.0 - Das 8-Bit-CSS-Framework
+ * Bitstrap v1.1.0 - Das 8-Bit-CSS-Framework
  * https://github.com/Schapat/bitstrap
  * Lizenz: MIT
  */
@@ -110,6 +110,23 @@
   --bit-dur: 120ms;
 }
 
+/* ---- Kleine Schirme ------------------------------------------------------
+   Die Ueberschriftgroessen sind fuer Pixelschrift bemessen und damit
+   breit. Unter 480px werden sie zurueckgenommen, sonst bleibt von einer
+   Zeile nur ein halbes Wort uebrig. Die Pixel-Einheit selbst bleibt
+   unangetastet - Rahmen und Abstaende sollen ihr Raster behalten. */
+@media (max-width: 479.98px) {
+  :root {
+    --bit-h1: 22px;
+    --bit-h2: 18px;
+    --bit-h3: 16px;
+    --bit-h4: 14px;
+    --bit-h5: 12px;
+    --bit-fs-xl: 15px;
+    --bit-fs-lg: 13px;
+  }
+}
+
 /* ---- Dark-Theme ---------------------------------------------------------- */
 [data-bit-theme="dark"] {
   --bit-bg:          var(--bit-c-void);
@@ -195,6 +212,11 @@ body {
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: grayscale;
   font-smooth: never;
+  /* Lange URLs, Dateinamen und Code-Schnipsel im Fliesstext haben keine
+     Umbruchstelle und schieben sonst die ganze Seite auf - in einer
+     Pixelschrift doppelt schnell. Wird vererbt; <pre> bleibt davon
+     unberuehrt, weil white-space: pre den Umbruch ohnehin unterbindet. */
+  overflow-wrap: break-word;
 }
 
 /* Nichts ist rund. Niemals.
@@ -346,6 +368,12 @@ h1, h2, h3, h4, h5, h6,
   color: var(--bit-text);
   /* Harter Pixel-Schatten statt Weichzeichner. */
   text-shadow: var(--bit-px) var(--bit-px) 0 var(--bit-th-c, transparent);
+  /* Pixelschriften sind rund doppelt so breit wie uebliche Schriften.
+     Ein einzelnes langes Wort - "Browser-Unterstuetzung" - sprengt damit
+     auf schmalen Schirmen die Zeile und schiebt die ganze Seite auf.
+     Umbruch im Wort ist hier das kleinere Uebel. */
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 h1, .bit-h1 { font-size: var(--bit-h1); }

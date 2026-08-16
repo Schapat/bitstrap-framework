@@ -11,6 +11,12 @@ h1, h2, h3, h4, h5, h6,
   color: var(--bit-text);
   /* Harter Pixel-Schatten statt Weichzeichner. */
   text-shadow: var(--bit-px) var(--bit-px) 0 var(--bit-th-c, transparent);
+  /* Pixelschriften sind rund doppelt so breit wie uebliche Schriften.
+     Ein einzelnes langes Wort - "Browser-Unterstuetzung" - sprengt damit
+     auf schmalen Schirmen die Zeile und schiebt die ganze Seite auf.
+     Umbruch im Wort ist hier das kleinere Uebel. */
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 h1, .bit-h1 { font-size: var(--bit-h1); }

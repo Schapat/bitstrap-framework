@@ -105,6 +105,23 @@
   --bit-dur: 120ms;
 }
 
+/* ---- Kleine Schirme ------------------------------------------------------
+   Die Ueberschriftgroessen sind fuer Pixelschrift bemessen und damit
+   breit. Unter 480px werden sie zurueckgenommen, sonst bleibt von einer
+   Zeile nur ein halbes Wort uebrig. Die Pixel-Einheit selbst bleibt
+   unangetastet - Rahmen und Abstaende sollen ihr Raster behalten. */
+@media (max-width: 479.98px) {
+  :root {
+    --bit-h1: 22px;
+    --bit-h2: 18px;
+    --bit-h3: 16px;
+    --bit-h4: 14px;
+    --bit-h5: 12px;
+    --bit-fs-xl: 15px;
+    --bit-fs-lg: 13px;
+  }
+}
+
 /* ---- Dark-Theme ---------------------------------------------------------- */
 [data-bit-theme="dark"] {
   --bit-bg:          var(--bit-c-void);

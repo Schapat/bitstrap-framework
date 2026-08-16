@@ -3,6 +3,25 @@
 Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/),
 Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [1.1.0] – 2026-08-16
+
+### Behoben
+
+- **Lange Woerter sprengten schmale Bildschirme.** Pixelschriften sind
+  rund doppelt so breit wie uebliche Schriften; eine Ueberschrift wie
+  „Browser-Unterstuetzung" passte bei 375px nicht in die Zeile und schob
+  die ganze Seite horizontal auf. Ueberschriften brechen jetzt notfalls
+  im Wort um (`overflow-wrap: break-word`, `hyphens: auto`).
+- **Dasselbe im Fliesstext**: lange URLs, Dateinamen und Code-Schnipsel
+  ohne Umbruchstelle taten das Gleiche. `body` erlaubt jetzt den Umbruch;
+  `<pre>` bleibt unberuehrt, weil `white-space: pre` dort ohnehin greift.
+
+### Geaendert
+
+- Unter 480px werden die Ueberschriftgroessen zurueckgenommen
+  (`--bit-h1` 34px → 22px und so weiter). Die Pixel-Einheit bleibt
+  unangetastet, damit Rahmen und Abstaende ihr Raster behalten.
+
 ## [1.0.0] – 2026-08-15
 
 Erste Veröffentlichung.
